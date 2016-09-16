@@ -1,0 +1,14 @@
+{
+  "name": "electron-sample",
+  "version": "1.0.0",
+  "description": "Electron sample project",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "author": "amalbose",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.1.0"
+  }
+}

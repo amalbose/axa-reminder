@@ -1,0 +1,68 @@
+html, body {
+    height: 100%;
+    overflow:hidden;
+}
+
+body {
+    -ms-overflow-style: hidden;
+    -webkit-app-region:drag;
+}
+
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+input[type="text"],
+button,
+.w3-sidenav a,
+#floatingIcon,
+textarea {
+	-webkit-app-region: no-drag;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    -webkit-user-select: none;
+}
+
+.selected {
+	color:#fff!important;background-color:#2D9434 !important
+}
+
+.w3-sidenav a {
+	line-height: 45px !important;
+}
+
+.header {
+	background-color: #227542 !important;
+}
+
+.w3-sidenav {
+	background-color: #4CAF50 !important;
+	color: #fff;
+}
+
+.w3-sidenav a:hover {
+	background-color: #2D9334 !important;
+	color: #fff !important;
+}
+
+#container {
+	background-color: #fff !important;
+	height: 100%;
+	color: #000;
+}
+
+.spacer {
+	margin-top: 50px;
+}
+
+#floatingIcon {
+	bottom: 25px;
+    right: 25px;
+    position: absolute;
+}
+
+#closeIcon {
+	top: 12px;
+    right: 12px;
+    position: absolute;
+}
