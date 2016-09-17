@@ -1,0 +1,27 @@
+[
+   {
+      "id":0,
+      "name":"",
+      "type":"default"
+   },
+   {
+      "id":1,
+      "name":"Birthday",
+      "type":"default"
+   },
+   {
+      "id":2,
+      "name":"Anniversary",
+      "type":"default"
+   },
+   {
+      "id":3,
+      "name":"Automobile",
+      "type":"default"
+   },
+   {
+      "id":4,
+      "name":"Finance",
+      "type":"default"
+   }
+]

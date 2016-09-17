@@ -111,6 +111,11 @@ h1, h2, h3, h4, h5, h6 {
     -webkit-user-select: none;
     user-select: none;
 }
+
 input, button, textarea, :focus {
-    outline: none; // You should add some other style for :focus to help UX/a11y
+    outline: none;
+}
+
+.row {
+	margin-bottom: 10px !important;
 }

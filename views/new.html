@@ -10,17 +10,11 @@
         </div>
         <div class="input-field col s6">
           <i class="material-icons prefix">toc</i>
-          <select>
-            <option value="1" selected>Option 1</option>
-            <option value="2">Option 2</option>
-            <option value="3">Option 3</option>
-          </select>
+          <select id="categorySelect"></select>
           <label>Category</label>
         </div>
         <script>
-            $(document).ready(function() {
-              $('select').material_select();
-            });
+          loadSelectBox();
         </script>
       </div>
       <div class="row">
@@ -50,18 +44,16 @@
         </div>  
       </div>
       <div class="row">
-        <div class="input-field col s2">
-          <i class="material-icons prefix">swap_vert</i>
-          <label for="priority">Priority</label>
-        </div>
-         <div class="input-field col s4">
-          <input id="priority" type="range" min="0" max="3">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">note_add</i>
+          <textarea id="notes" placeholder="Additional notes" class="materialize-textarea"></textarea>
+          <label for="notes">Notes</label>
         </div>
       </div>
     </form>
 </div>
 </div>
 <div class="modal-footer">
-  <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Save</a>
-  <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+  <a href="#!" id="saveBtn" class=" modal-action modal-close waves-effect waves-green btn-flat">Save</a>
+  <a href="#!" id="cancelBtn" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
 </div>
