@@ -9,6 +9,7 @@
   "author": "amalbose",
   "license": "ISC",
   "dependencies": {
+    "electron": "^1.4.0",
     "jquery": "^3.1.0"
   }
 }
