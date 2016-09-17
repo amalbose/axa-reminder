@@ -4,55 +4,48 @@
 	<title>Electron</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/w3.css">
-	<!--Import Google Icon Font-->
-	<link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--Import materialize.css-->
+	<link rel="stylesheet" type="text/css" href="css/jquery.datetimepicker.css">
+
+	<link href="fonts/material-icons.css" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
 	
 	<script>
- 	window.$ = window.jQuery = require('jquery');
- 	window.Hammer = require('./js/hammer.min.js');
+	 	window.$ = window.jQuery = require('jquery');
+	 	window.Hammer = require('./js/hammer.min.js');
  	</script>
-	<script type="text/javascript" src="js/hammer.min.js"></script>
-  	<!--  
-  	<script type="text/javascript">
- 		  window.jQuery = window.$ = require('jquery');
- 	</script> 
- 	-->
+	<script type="text/javascript" src="js/script.js"></script>
+  	<script type="text/javascript" src="js/hammer.min.js"></script>
  	<script type="text/javascript" src="js/materialize.min.js"></script>
-
- 	
+ 	<script type="text/javascript" src="js/jquery.datetimepicker.min.js"></script>
 </head>
 <body>
 	<nav class="w3-sidenav w3-card-2" style="width:25%">
 	  <header class="w3-container header">
 	  	<h5>Axa Reminder</h5>
 	  </header>
-	  <a href="#" class="selected">Up Coming</a>
-	  <a href="#">All Reminders</a>
-	  <a href="#">Categories</a>
-	  <a href="#">Settings</a>
-	  <a href="#">Help</a>
+	  <a href="#" id="home" class="sideLink selected">Up Coming</a>
+	  <a href="#" id="all" class="sideLink" >All Reminders</a>
+	  <a href="#" id="category" class="sideLink">Categories</a>
+	  <a href="#" id="settings" class="sideLink">Settings</a>
+	  <a href="#" id="help" class="sideLink">Help</a>
 	</nav>
 
 	<div id="container" style="margin-left:25%">
-		<!-- <header class="w3-container w3-teal">
-		  <h1>My Header</h1>
-		</header> -->
-
 		<div class="w3-container spacer">
-		  <h2>Side Navigation Example</h2>
-		  <p>Note that you control the size of the sidenav with style="width:value". To change the color, change the w3-color class.</p>
-
-		  <p>Make sure to add the margin-left property to the page content, with a value that is equal to the width of the sidenav. If you omit this, the navigation pane will overlay/sit on top of the page content.</p>
+		  	<div id="home_content" class="content"></div>
+			<div id="all_content" class="content"></div>
+			<div id="category_content" class="content"></div>
+			<div id="settings_content" class="content"></div>
+			<div id="help_content" class="content"></div>
+			<div id="newReminder" class="content inside"></div>
 		</div>
-	<div  id="floatingIcon" >
-		<a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
-	</div>
+		<div  id="floatingIcon" >
+			<a class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+		</div>
 
-	<div  id="closeIcon" >
-		<i class="small material-icons">power_settings_new</i>
-	</div>
+		<div id="closeIcon" >
+			<i class="small material-icons">power_settings_new</i>
+		</div>
 	</div>
 
 </body>

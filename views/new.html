@@ -1,0 +1,36 @@
+<h5>Create New Reminder</h5>
+<div class="row">
+    <form id="newReminderForm" class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <i class="material-icons prefix">mode_edit</i>
+          <input id="task_name" type="text" class="validate">
+          <label for="task_name">Task Name</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+		<i class="material-icons prefix">today</i>
+		<input type='text' class="form-control" id='datetimepicker' />
+		<label for="datetimepicker">Remind On</label>
+        </div>
+        <script type="text/javascript">
+            jQuery('#datetimepicker').datetimepicker({
+				minDate:0
+			});
+        </script>    
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="password" type="password" class="validate">
+          <label for="password">Password</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="email" type="email" class="validate">
+          <label for="email">Email</label>
+        </div>
+      </div>
+    </form>
+</div>
