@@ -1,36 +1,67 @@
-<h5>Create New Reminder</h5>
+<div class="modal-content">
+<h5>Add Reminder</h5>
 <div class="row">
     <form id="newReminderForm" class="col s12">
       <div class="row">
-        <div class="input-field col s12">
+        <div class="input-field col s6">
           <i class="material-icons prefix">mode_edit</i>
           <input id="task_name" type="text" class="validate">
           <label for="task_name">Task Name</label>
         </div>
+        <div class="input-field col s6">
+          <i class="material-icons prefix">toc</i>
+          <select>
+            <option value="1" selected>Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+          </select>
+          <label>Category</label>
+        </div>
+        <script>
+            $(document).ready(function() {
+              $('select').material_select();
+            });
+        </script>
       </div>
       <div class="row">
-        <div class="input-field col s12">
-		<i class="material-icons prefix">today</i>
-		<input type='text' class="form-control" id='datetimepicker' />
-		<label for="datetimepicker">Remind On</label>
+        <div class="input-field col s6">
+      		<i class="material-icons prefix">today</i>
+      		<input type='text' class="form-control" id='datetimepicker' />
+      		<label for="datetimepicker">Remind On</label>
         </div>
         <script type="text/javascript">
             jQuery('#datetimepicker').datetimepicker({
-				minDate:0
-			});
-        </script>    
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input id="password" type="password" class="validate">
-          <label for="password">Password</label>
+      				minDate:0
+      			});
+        </script>
+        <div class="input-field col s2">
+          <i class="material-icons prefix">add_alert</i>
+          <label>Alarm</label>
         </div>
+        <div class="input-field col s4">
+          <div class="switch">
+            <label>
+              Off
+              <input id="alarm" type="checkbox" checked="true">
+              <span class="lever"></span>
+              On
+            </label>
+          </div>
+        </div>  
       </div>
       <div class="row">
-        <div class="input-field col s12">
-          <input id="email" type="email" class="validate">
-          <label for="email">Email</label>
+        <div class="input-field col s2">
+          <i class="material-icons prefix">swap_vert</i>
+          <label for="priority">Priority</label>
+        </div>
+         <div class="input-field col s4">
+          <input id="priority" type="range" min="0" max="3">
         </div>
       </div>
     </form>
+</div>
+</div>
+<div class="modal-footer">
+  <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Save</a>
+  <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
 </div>

@@ -16,11 +16,14 @@ input[type="text"],
 input[type="date"],
 input[type="password"],
 input[type="email"],
+input[type="range"],
 button,
+select,
 .w3-sidenav a,
 #floatingIcon,
 #closeIcon,
 #newReminder,
+.lean-overlay,
 textarea {
 	-webkit-app-region: no-drag;
 }
@@ -91,14 +94,23 @@ h1, h2, h3, h4, h5, h6 {
 
 #newReminder{
 	background-color: #fff;
-	height: 100%;
-	width: 75%
+	max-height: 77%;
 }
 
-.newContent {
-	margin-left: 0;
-	-webkit-transition: margin-left 1s;
-    -moz-transition: margin-left 1s;
-    -o-transition: margin-left 1s;
-    transition: margin-left 1s;
+#closeIcon i {
+	color: #fff;
+}
+
+.modal.modal-fixed-footer {
+    height: 100% !important;
+}
+
+:not(input):not(textarea),
+:not(input):not(textarea)::after,
+:not(input):not(textarea)::before {
+    -webkit-user-select: none;
+    user-select: none;
+}
+input, button, textarea, :focus {
+    outline: none; // You should add some other style for :focus to help UX/a11y
 }

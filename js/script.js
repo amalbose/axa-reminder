@@ -15,12 +15,17 @@ $(document).on("click", ".sideLink", function(){
     $("#"+this.id).addClass("selected");
 });
 
-$(document).on("click", "#floatingIcon", function(){
-    $(".sideLink").removeClass("selected");
-    $("#newReminder").addClass("newContent");
-});
-
 // Close windows
 $(document).on("click","#closeIcon", function(){
 	window.close();
+});
+
+
+$(document).ready(function(){
+    $('.modal-trigger').leanModal({
+      dismissible: true, 
+      opacity: .5, 
+      in_duration: 150, 
+      out_duration: 100,
+    });
 });
