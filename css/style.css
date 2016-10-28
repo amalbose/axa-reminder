@@ -57,6 +57,10 @@ input, button, textarea,.sidebar_brand, :focus {
     cursor: pointer;
 }
 
+.pointerCursor {
+  cursor: pointer;
+}
+
 .btn-circle {
   width: 50px;
   height: 50px;
@@ -94,4 +98,24 @@ input, button, textarea,.sidebar_brand, :focus {
 }
 ::-webkit-scrollbar-thumb:hover {
   background-color: #aaa;
+}
+
+.itemHeader {
+  font-weight: bold;
+}
+
+.category {
+    position: relative;
+    float: right;
+    top: -15px;
+}
+
+.alarmIcon {
+    position: relative;
+    float: right;
+    top: -35px;
+}
+
+.label-success {
+    background-color: #8BC34A !important;
 }

@@ -1,5 +1,8 @@
 var fs = require('fs');
+var db = require("./js/db.js");
+
 var remFile = "data/reminders.json"
+var existingData;
 
 $(function(){
     $("#newReminderModal").load("views/new.html"); 
@@ -10,14 +13,13 @@ $(document).on("click", ".sidebarItem", function(){
     $(".sidebarItem").removeClass("selected");
     $("#"+this.id).addClass("selected");
     $('#containerDiv').load("views/"+this.id+".html");
-    updateAllResources();
+    // updateAllResources();
 });
 
 // on load
 $(document).ready(function(){
     loadDefaultDiv();
-
-    updateAllResources();
+    // updateAllResources();
 });
 
 function loadAlertSwitch(){
@@ -27,6 +29,10 @@ function loadAlertSwitch(){
 // Close windows
 $(document).on("click","#closeIcon", function(){
 	window.close();
+});
+
+$(document).on("click",".input-group-addon", function(){
+  $("#datetimepicker1").removeClass("has-error")
 });
 
 $(document).on("click",".input-group-addon", function(){
@@ -80,6 +86,7 @@ $(document).on("click","#saveBtn", function(){
     clearForm(false);
     $('#newReminderModal').modal('hide');
     displaySavedAlert();
+    updateAllResources();
   });
 });
 
@@ -95,7 +102,7 @@ function saveData(callBack){
     var name = $("#task_name").val()
     var notes = $("#notes").val()
     var remindOn = $("#datetimepicker").val()
-    var alarm = $("#alarm").prop('checked');
+    var alarm = $("#alertOn").prop('checked');
     var category = $("#categorySelect").val();
     // Create the item using the values
     var item = { 
@@ -106,6 +113,10 @@ function saveData(callBack){
       notes: notes, 
       remindOn: remindOn 
     };
+
+    // insert into db
+    db.insertIntoDB(item);
+
     if(remArr==''){
       remArr = []
       remArr.push(item);
@@ -158,16 +169,29 @@ function displaySavedAlert(){
 
 
 function updateAllResources(){
-  console.log("Updating..")
-  readJson(remFile, (remArr) => {
-    for(item in remArr) {
-      var rowA = $('<a/>', {class : "list-group-item"})
-      var rowH4 = $('<h4/>', {class : "ist-group-item-heading", text : remArr[item].name})
-      var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn })
 
-      rowA.append(rowH4)
-      rowA.append(rowP)
-      $('#allRemList').append(rowA)
-    }
-  });
+    db.getAllReminders((remArr)=>{
+      $('#allRemList').empty();
+        for(item in remArr) {
+          var rowC = $('<div/>', { class : "category label label-success", text : remArr[item].category });
+          var rowD = $('<div/>', { });
+          var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseExample"+item, "aria-expanded" : "false", "aria-controls" : "collapseExample" })
+          var rowH4 = $('<h4/>', {class : "ist-group-item-heading itemHeader", text : remArr[item].name});
+          var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn });
+          var rowNotesD = $('<div/>', {class : "collapse", id : "collapseExample"+item });
+          var rowNotes = $('<div/>', { text : remArr[item].notes });
+          var rowAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon"});
+
+          rowNotesD.append(rowNotes);
+          rowD.append(rowC);
+          rowD.append(rowH4);
+          rowD.append(rowP);
+          if(remArr[item].alarm) {
+            rowD.append(rowAlarm);
+          }
+          rowA.append(rowD);
+          rowA.append(rowNotesD);
+          $('#allRemList').append(rowA);
+        }
+    });  
 }

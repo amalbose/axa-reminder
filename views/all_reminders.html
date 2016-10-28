@@ -1,10 +1,11 @@
 <h1>All Reminders</h1>
 <div class="tableContainer" id="allReminders">
-	<div class="list-group" id="allRemList" >
-	 <!--  <a href="#" class="list-group-item">
-	    <h4 class="list-group-item-heading">Name</h4>
-	    <p class="list-group-item-text">On 2016/09/17 21:00</p>
-	  </a>
-	  -->
-	</div>
+
+	<div class="list-group" id="allRemList" ></div>
+  <script>
+  	updateAllResources();
+	$(document).on("click", ".itemToggle", function(){
+		$(".collapse").collapse('hide');
+	});
+  </script>
 </div>
