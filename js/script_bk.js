@@ -1,43 +1,43 @@
 var fs = require('fs');
 var remFile = "data/reminders.json"
 
-$(function(){
-    $("#newReminderModal").load("views/new.html"); 
-});
+ // Load page components
+ $(function(){
+      $("#home_content").load("views/upcoming.html"); 
+      $("#all_content").load("views/all_reminders.html"); 
+      $("#category_content").load("views/category.html"); 
+      $("#settings_content").load("views/settings.html"); 
+      $("#help_content").load("views/help.html"); 
+      $("#newReminder").load("views/new.html"); 
+ });
 
 // Tab selection
-$(document).on("click", ".sidebarItem", function(){
-    $(".sidebarItem").removeClass("selected");
+$(document).on("click", ".sideLink", function(){
+	$("#newReminder").removeClass("newContent");
+    $(".content").removeClass("inside");
+    $(".sideLink").removeClass("selected");
+    $("#"+this.id+"_content").addClass("inside");
     $("#"+this.id).addClass("selected");
-    $('#containerDiv').load("views/"+this.id+".html");
-    updateAllResources();
 });
-
-// on load
-$(document).ready(function(){
-    loadDefaultDiv();
-
-    updateAllResources();
-});
-
-function loadAlertSwitch(){
-  $("#alertOn").bootstrapSwitch();
-}
 
 // Close windows
 $(document).on("click","#closeIcon", function(){
 	window.close();
 });
 
-$(document).on("click",".input-group-addon", function(){
-  $("#datetimepicker1").removeClass("has-error")
+// Open modal window
+$(document).ready(function(){
+    $('.modal-trigger').leanModal({
+      dismissible: true, 
+      opacity: .5, 
+      in_duration: 150, 
+      out_duration: 100,
+    });
+
+    // 
+    console.log("On Ready")
+    updateAllResources();
 });
-
-
-// load default div
-function loadDefaultDiv(){
-  $('#containerDiv').load("views/upcoming.html")
-}
 
 // load the select box
 function loadSelectBox(){
@@ -55,6 +55,13 @@ function loadSelectBox(){
           text : item.name
         }));
       });
+      // emit event
+      dropDown.trigger('contentChanged');
+    });
+
+    // $('select').material_select();
+    $('select').on('contentChanged', function() {
+      $(this).material_select();
     });
 }
 
@@ -65,12 +72,13 @@ $(document).on("click","#cancelBtn", function(){
 
 // clear the form
 function clearForm(saveCategory){
-  $("#task_name").val('');
-  $("#datetimepicker").val('');
-  $("#notes").val('');
-  $("#alertOn").bootstrapSwitch('state', true);
+  $("#task_name").val('')
+  $("#datetimepicker").val('')
+  $("#notes").val('')
+  $("#alarm").prop('checked', true);
   if(saveCategory) {
-    $("#categorySelect").val("");
+    $("#categorySelect option[value=0]").prop('selected', true);
+    $("#categorySelect").trigger('contentChanged');
   }
 }
 
@@ -78,8 +86,7 @@ function clearForm(saveCategory){
 $(document).on("click","#saveBtn", function(){
   saveData(()=>{
     clearForm(false);
-    $('#newReminderModal').modal('hide');
-    displaySavedAlert();
+    window.close();
   });
 });
 
@@ -145,29 +152,34 @@ function readJson(file,callBack){
 function isDataValid(){
   var remindOn = $("#datetimepicker").val()
   if(remindOn==''){
-    $("#datetimepicker1").addClass("has-error")
+    $("#datetimepicker").addClass("invalid")
     return false
   }
   return true
 }
 
-function displaySavedAlert(){
-  $("#savedAlert").fadeIn();
-  $("#savedAlert").delay(2000).slideUp().fadeOut("slow");
-}
-
-
 function updateAllResources(){
   console.log("Updating..")
   readJson(remFile, (remArr) => {
+    console.log(remArr)
     for(item in remArr) {
-      var rowA = $('<a/>', {class : "list-group-item"})
-      var rowH4 = $('<h4/>', {class : "ist-group-item-heading", text : remArr[item].name})
-      var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn })
+      console.log(remArr[item])
+      var rowDiv = $('<div/>', {class : "row"})
+      var rowDivInner = $('<div/>', {class : "col s12 m12"})
+      var cardDiv = $('<div/>', {class : "card" })
+      var cardContent = $('<div/>', {class : "card-content" })
+      var cardContentP = $('<p/>', {text : remArr[item].name })
 
-      rowA.append(rowH4)
-      rowA.append(rowP)
-      $('#allRemList').append(rowA)
+      var cardAction = $('<div/>', {class : "card-action"})
+      var cardActionHref = $('<a/>', {href : "#" , text: "Link"})
+      cardAction.append(cardActionHref)
+
+      cardContent.append(cardContentP)
+      cardDiv.append(cardContent)
+      cardDiv.append(cardAction)
+      rowDivInner.append(cardDiv)
+      rowDiv.append(rowDivInner)
+      $('#allReminders').append(rowDiv)
     }
   });
 }

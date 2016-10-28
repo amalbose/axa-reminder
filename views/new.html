@@ -1,59 +1,72 @@
-<div class="modal-content">
-<h5>Add Reminder</h5>
-<div class="row">
-    <form id="newReminderForm" class="col s12">
-      <div class="row">
-        <div class="input-field col s6">
-          <i class="material-icons prefix">mode_edit</i>
-          <input id="task_name" type="text" class="validate">
-          <label for="task_name">Task Name</label>
+<div class="modal-dialog">
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h4 class="modal-title">Add Reminder</h4>
+    </div>
+    <div class="modal-body">
+      <form class="form-horizontal">
+        <div class="form-group ">
+            <div class="row col-lg-10">
+              <div class="col-sm-6 has-feedback">
+                <label class="control-label required">Task Name</label>
+                <input id="task_name" type="text" class="form-control">
+              </div>
+              <div class="col-sm-6">
+                <label class="control-label required">Category</label>
+                <select id="categorySelect" class="form-control"></select>
+              </div>
+            </div>
         </div>
-        <div class="input-field col s6">
-          <i class="material-icons prefix">toc</i>
-          <select id="categorySelect"></select>
-          <label>Category</label>
-        </div>
-        <script>
-          loadSelectBox();
-        </script>
-      </div>
-      <div class="row">
-        <div class="input-field col s6">
-      		<i class="material-icons prefix">today</i>
-      		<input type='text' class="form-control" id='datetimepicker' />
-      		<label for="datetimepicker">Remind On</label>
-        </div>
-        <script type="text/javascript">
-            jQuery('#datetimepicker').datetimepicker({
-      				minDate:0
-      			});
-        </script>
-        <div class="input-field col s2">
-          <i class="material-icons prefix">add_alert</i>
-          <label>Alarm</label>
-        </div>
-        <div class="input-field col s4">
-          <div class="switch">
-            <label>
-              Off
-              <input id="alarm" type="checkbox" checked="true">
-              <span class="lever"></span>
-              On
-            </label>
+        <div class="form-group">
+          <div class="col-lg-10">
+             <div class="row col-lg-10">
+                    <div class='col-sm-6'>
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker1'>
+                                <label class="control-label required">Remind On</label>
+                                <div class="input-group">
+                                <input id='datetimepicker' type='text' class="form-control" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                      <script type="text/javascript">
+                          $(function () {
+                              $('#datetimepicker1').datetimepicker();
+                          });
+                      </script>
+                      <div class="col-sm-6">
+                        <label class="control-label required">Alert</label>
+                        <div class="input-group">
+                        <input type="checkbox" id="alertOn" checked> 
+                      </div>
+                    </div>
+                </div>
           </div>
-        </div>  
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <i class="material-icons prefix">note_add</i>
-          <textarea id="notes" placeholder="Additional notes" class="materialize-textarea"></textarea>
-          <label for="notes">Notes</label>
         </div>
-      </div>
-    </form>
-</div>
-</div>
-<div class="modal-footer">
-  <a href="#!" id="saveBtn" class=" modal-action modal-close waves-effect waves-green btn-flat">Save</a>
-  <a href="#!" id="cancelBtn" class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+    <div class="form-group">
+            <div class="row col-lg-10">
+              <div class="col-lg-10 has-feedback">
+                <label class="control-label required">Notes</label>
+               <textarea id="notes" class="form-control" rows="3"></textarea>
+              </div>
+            </div>
+    </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button id="cancelBtn" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      <button id="saveBtn" type="button" class="btn btn-primary">Save</button>
+    </div>
+  </div>
+
+  <script>
+    loadSelectBox();
+    loadAlertSwitch();
+  </script>
 </div>

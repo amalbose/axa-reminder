@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Axa Reminder</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/bootstrap-datetimepicker.css"  rel="stylesheet" >
+
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/bootstrap-switch.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#" id="title">
+                        Axa Reminder
+                    </a>
+                </li>
+                <li class="sidebarItem selected" id="upcoming">
+                    <a href="#">Up Coming</a>
+                </li>
+                <li class="sidebarItem" id="all_reminders">
+                    <a href="#">All Reminders</a>
+                </li>
+                <li class="sidebarItem" id="category">
+                    <a href="#">Categories</a>
+                </li>
+                <li class="sidebarItem" id="settings">
+                    <a href="#">Settings</a>
+                </li>
+                <li class="sidebarItem" id="help">
+                    <a href="#">Help</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="alert alert-success alert-dismissible displayNone" id="savedAlert" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Saved!</strong> Reminder has been added to your list.
+    </div>
+            <div class="container-fluid" id="containerDiv"></div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+        <div  id="closeIcon" class="modal-trigger fa fa-close fa-2x" href="#newReminder">
+            <!-- <a href="#" class="btn btn-default"><i class="fa fa-close fa-2x"></i></a> -->
+        </div>
+
+        <div  id="floatingIcon" class="modal-trigger" href="#newReminder">
+            <!-- <a class="glyphicon glyphicon-plus"></a> -->
+            <a href="#" class="btn btn-default btn-circle" data-toggle="modal" data-target="#newReminderModal" ><i class="fa fa-plus fa-2x"></i></a>
+        </div>
+        <!-- Modal -->
+        <div id="newReminderModal" class="modal fade" role="dialog"></div>
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- jQuery -->
+    <script>
+        window.$ = window.jQuery = require('jquery');
+        // window.Hammer = require('./js/hammer.min.js');
+    </script>
+
+    <script src="js/moment.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/bootstrap-datetimepicker.min.js"></script>
+
+    <script src="js/script.js"></script>
+
+    <script src="js/bootstrap-switch.min.js"></script>
+
+</body>
+
+</html>

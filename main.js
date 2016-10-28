@@ -11,7 +11,7 @@ app.on('ready', () => {
 		frame : false
 	})
 
-	win.loadURL(`file://${__dirname}/index.html`)
+	win.loadURL(`file://${__dirname}/main.html`)
 	win.webContents.openDevTools()
 	win.on('close', function () { win = null })
 })

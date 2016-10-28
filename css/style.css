@@ -1,12 +1,7 @@
-html, body {
-    height: 100%;
-    overflow:hidden;
-}
-
 body {
     -ms-overflow-style: hidden;
     -webkit-app-region:drag;
-    background-color: #227542;
+    background-color: #8BC34A;
 }
 
 input[type="submit"],
@@ -19,90 +14,18 @@ input[type="email"],
 input[type="range"],
 button,
 select,
-.w3-sidenav a,
-#floatingIcon,
-#closeIcon,
-#newReminder,
-.lean-overlay,
+.tableContainer,
+.date,
+.bootstrap-datetimepicker-widget,
+#newReminderModal,
+.modal-trigger,
+.sidebar-nav li:not(.sidebar-brand),
 textarea {
 	-webkit-app-region: no-drag;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6, span, p {
     -webkit-user-select: none;
-}
-
-.selected {
-	color:#fff !important;
-	background-color:#2D9434 !important
-}
-
-.w3-sidenav a {
-	line-height: 45px !important;
-}
-
-.header {
-	background-color: #227542 !important;
-}
-
-.w3-sidenav {
-	background-color: #4CAF50 !important;
-	color: #fff;
-}
-
-.w3-sidenav a:hover {
-	background-color: #2D9334 !important;
-	color: #fff !important;
-}
-
-#container {
-	background-color: #8BC34A !important;
-	height: 100%;
-	color: #000;
-}
-.w3-container.header {
-	height: 50px !important;
-}
-
-.spacer {
-	margin-top: 50px;
-	padding-left: 0px !important;
-}
-
-#floatingIcon {
-	bottom: 25px;
-    right: 25px;
-    position: absolute;
-}
-
-#closeIcon {
-	top: 10px;
-    right: 12px;
-    position: absolute;
-    cursor: pointer;
-}
-
-.content {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    margin-left: 110%;
-}
-.content.inside {
-    margin-left: 0;
-}
-
-#newReminder{
-	background-color: #fff;
-	max-height: 77%;
-}
-
-#closeIcon i {
-	color: #fff;
-}
-
-.modal.modal-fixed-footer {
-    height: 100% !important;
 }
 
 :not(input):not(textarea),
@@ -112,10 +35,63 @@ h1, h2, h3, h4, h5, h6 {
     user-select: none;
 }
 
-input, button, textarea, :focus {
+#title{
+	color : #fff;
+}
+
+input, button, textarea,.sidebar_brand, :focus {
     outline: none;
 }
 
-.row {
-	margin-bottom: 10px !important;
+#floatingIcon {
+	bottom: 25px;
+    right: 25px;
+    position: absolute;
+    cursor: pointer;
+}
+
+#closeIcon {
+	top: 15px;
+    right: 15px;
+    position: absolute;
+    cursor: pointer;
+}
+
+.btn-circle {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 12px;
+  line-height: 1.42;
+  border-radius: 25px;
+}
+
+/* Scroll */
+#allRemList {
+    overflow: auto;
+    height: 425px;
+}
+
+.displayNone {
+  display: none;
+}
+
+#savedAlert{
+  position: absolute;
+  width: 80%;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background-color: #eaeaea;
+    border-left: 0px solid #ccc;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa;
 }
