@@ -2,9 +2,6 @@ var fs = require('fs');
 var db = require("./js/db.js");
 var cron = require("./js/cron.js");
 
-var remFile = "data/reminders.json"
-var existingData;
-
 $(function(){
     $("#newReminderModal").load("views/new.html"); 
     $("#editReminderModal").load("views/edit.html"); 
@@ -15,13 +12,11 @@ $(document).on("click", ".sidebarItem", function(){
     $(".sidebarItem").removeClass("selected");
     $("#"+this.id).addClass("selected");
     $('#containerDiv').load("views/"+this.id+".html");
-    // updateAllResources();
 });
 
 // on load
 $(document).ready(function(){
     loadDefaultDiv();
-    // updateAllResources();
 });
 
 function loadAlertSwitch(index){
@@ -134,20 +129,13 @@ function displayUpdatedAlert(){
   $("#updatedAlert").delay(2000).slideUp().fadeOut("slow");
 }
 
-function displayAlert(element) {
-  element.fadeIn();
-  element.delay(2000).slideUp().fadeOut("slow");
-}
-
 function displayDeleteAlert(){
-  // displayAlert($("#deleteAlert"));
   $("#deleteAlert").fadeIn();
   $("#deleteAlert").delay(2000).slideUp().fadeOut("slow");
 }
 
 
 function updateAllResources(){
-
     db.getAllReminders((remArr)=>{
       $('#allRemList').empty();
         for(item in remArr) {
