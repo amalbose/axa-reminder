@@ -81,7 +81,7 @@ input, button, textarea,.sidebar_brand, :focus {
   display: none;
 }
 
-#savedAlert{
+.alertDiv{
   position: absolute;
   width: 80%;
 }
@@ -102,20 +102,57 @@ input, button, textarea,.sidebar_brand, :focus {
 
 .itemHeader {
   font-weight: bold;
+  display: inline-block;
 }
+
+.editBtn{
+  margin-left: 5px;
+  display: none;
+}
+
+h5:hover + .editBtn {
+  display: inline-block;
+}
+
 
 .category {
     position: relative;
     float: right;
-    top: -15px;
 }
 
 .alarmIcon {
     position: relative;
     float: right;
-    top: -35px;
+    top: -12px;
+    right: 20px;
+}
+
+.trashIcon {
+    position: relative;
+    float: right;
+    top: -12px;
+    right: -14px;
+}
+
+.editIcon {
+    position: absolute;
+    top: 15px;
+    left: 15px;
 }
 
 .label-success {
     background-color: #8BC34A !important;
+}
+
+.smodal-header {
+  padding: 10px 10px 10px 10px;
+}
+
+.smodal-body {
+  padding: 10px 10px 0px 10px;
+}
+
+.smodal-footer{
+  padding: 10px 10px 10px 10px;
+  border: 0px;
 }

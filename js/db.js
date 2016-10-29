@@ -27,3 +27,26 @@ exports.getAllReminders = function(callback) {
 	  callback(docs);
 	});
 }
+
+exports.deleteReminder = function(idVal, callback) {
+	db.remove({ _id: idVal }, {}, function (err, numRemoved) {
+	  if(err)
+	  	callback("Error");
+	  else
+	  	callback(numRemoved);
+	});
+}
+
+exports.getReminder = function(idVal, callback) {
+	db.findOne({ _id: idVal }, function (err, doc) {
+		callback(doc);
+	});
+}
+
+exports.updateReminder = function(idVal, data, callback) {
+	db.update({ _id: idVal }, { $set: data }, { multi: false }, function (err, numReplaced) {
+	if(err)
+		alert(err)
+	  callback(numReplaced);
+	});
+}
