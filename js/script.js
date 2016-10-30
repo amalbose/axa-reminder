@@ -5,6 +5,7 @@ var cron = require("./js/cron.js");
 $(function(){
     $("#newReminderModal").load("views/new.html"); 
     $("#editReminderModal").load("views/edit.html"); 
+    $("#alertNotify").load("views/alertNotify.html"); 
 });
 
 // Tab selection
@@ -17,6 +18,7 @@ $(document).on("click", ".sidebarItem", function(){
 // on load
 $(document).ready(function(){
     loadDefaultDiv();
+    processCronJobs();
 });
 
 function loadAlertSwitch(index){
@@ -81,6 +83,11 @@ $(document).on("click","#saveBtn", function(){
     updateAllResources();
   });
 });
+
+$('#newReminderModal').on('shown.bs.modal', function (event) {
+  $('#newReminderModal #task_name').focus();  
+});
+
 
 // save data to file
 function saveData(callBack){
@@ -204,7 +211,6 @@ function getId(idToken) {
 
 function openEditReminder(id){
     $('#editReminderModal').modal({});
-
     $('#editReminderModal').on('shown.bs.modal', function (event) {
       $('#editReminderModal #task_name').focus();  
         db.getReminder(id, (docs)=>{
@@ -242,6 +248,25 @@ $(document).on("click","#updateBtn", function(event){
 });
 
 
-function performCronAction(){
-  alert("Hello. Cron Executed " + new Date())
+function processCronJobs(){
+  db.getAllReminders((remArr)=>{
+    for(item in remArr) {
+      console.log(remArr[item].remindOn);
+      var jobId = cron.addJob(remArr[item], openAlert);
+      console.log(jobId);
+    }
+  });
 }
+
+function openAlert(doc) {
+  $('#alertNotify').modal({});
+  $('#alertNotify').on('shown.bs.modal', function (event) {
+    $("#alertNotify #alertBody").text(doc.name);
+    $("#alertNotify #openID").val(doc._id);
+  });
+}
+
+$(document).on("click","#openBtn", function(){
+  var id = $("#alertNotify #openID").val();
+  openEditReminder(id);
+});

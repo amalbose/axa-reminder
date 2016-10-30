@@ -18,6 +18,7 @@ select,
 .date,
 .bootstrap-datetimepicker-widget,
 #newReminderModal,
+#alertNotify,
 .modal-trigger,
 .sidebar-nav li:not(.sidebar-brand),
 textarea {
