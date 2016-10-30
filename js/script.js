@@ -233,7 +233,7 @@ function populateData(doc) {
 }
 
 $(document).on("click","#updateBtn", function(event){
-  var id = $(this).data("id");
+  var id = $(this).attr("data-id");;
   var obj = new Object();
   obj.name = $("#editReminderModal #task_name").val();
   obj.category  = $("#editReminderModal #categorySelect2").val();
