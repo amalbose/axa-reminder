@@ -157,3 +157,22 @@ h5:hover + .editBtn {
   padding: 10px 10px 10px 10px;
   border: 0px;
 }
+
+.checkBoxImg {
+    position: absolute;
+    top: 23px;
+    left : 10px;
+    font-size: larger;
+}
+
+.statusC {
+  color : #8BC34A;
+}
+
+.statusI {
+  color : #dfe2df;
+}
+
+.itemCont {
+  margin-left: 24px;
+}

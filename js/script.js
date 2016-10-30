@@ -63,7 +63,6 @@ $(document).on("click","#updateBtn", function(event){
   obj.remindOn = $("#editReminderModal #datetimepicker").val();
   obj.notes = $("#editReminderModal #notes").val();
   obj.alarm = $("#editReminderModal #alertOn2").prop('checked');
-  var reminderJSON = JSON.stringify(obj);
   db.updateReminder(id, obj, (noUpdated)=> {
     displayUpdatedAlert();
     updateAllResources();
@@ -74,6 +73,21 @@ $(document).on("click","#updateBtn", function(event){
 $(document).on("click","#openBtn", function(){
   var id = $("#alertNotify #openID").val();
   openEditReminder(id);
+});
+
+$(document).on("click", ".checkBoxImg", function(event){
+  var id = getId($(this).attr("id"));
+  var completedColor = "rgb(139, 195, 74)";
+  var incompleteColor = "rgb(223, 226, 223)";
+  var completed = false;
+  if($(this).css('color')==incompleteColor) {
+    $(this).css('color', completedColor);
+    completed = true;
+  } else {
+    $(this).css('color', incompleteColor);
+  }
+  setCompleted(id, completed);
+  event.stopPropagation();
 });
 
 
@@ -191,7 +205,12 @@ function updateAllResources(){
       $('#allRemList').empty();
         for(item in remArr) {
           var rowC = $('<div/>', { class : "category label label-success", text : remArr[item].category });
-          var rowD = $('<div/>', { });
+          var rowD = $('<div/>', { class : "itemCont" });
+          var statusCls = "statusI";
+          if(remArr[item].status) {
+            statusCls = "statusC";
+          }
+          var rowChbx = $('<span/>', { class : "glyphicon glyphicon-ok checkBoxImg " + statusCls , "id" : "c_"+remArr[item]._id });
           var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseExample"+item, "aria-expanded" : "false", "aria-controls" : "collapseExample" })
           var rowH4 = $('<h5/>', {class : "list-group-item-heading itemHeader pointerCursor", text : remArr[item].name, "id" : "n_"+remArr[item]._id});
           var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
@@ -213,6 +232,7 @@ function updateAllResources(){
             rowD.append(rowIAlarm);
           }
           rowD.append(rowTrash);
+          rowA.append(rowChbx);
           rowA.append(rowD);
           rowA.append(rowNotesD);
           $('#allRemList').append(rowA);
@@ -280,5 +300,14 @@ function openAlert(doc) {
   $('#alertNotify').on('shown.bs.modal', function (event) {
     $("#alertNotify #alertBody").text(doc.name);
     $("#alertNotify #openID").val(doc._id);
+  });
+}
+
+function setCompleted(idVal, completed) {
+  var obj = new Object();
+  obj.status = completed;
+    db.updateReminder(idVal, obj, (noUpdated)=> {
+    displayUpdatedAlert();
+    updateAllResources();
   });
 }
