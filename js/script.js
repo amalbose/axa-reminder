@@ -2,11 +2,20 @@ var fs = require('fs');
 var db = require("./js/db.js");
 var cron = require("./js/cron.js");
 
-$(function(){
-    $("#newReminderModal").load("views/new.html"); 
-    $("#editReminderModal").load("views/edit.html"); 
-    $("#alertNotify").load("views/alertNotify.html"); 
+// on load
+$(document).ready(function(){
+    loadViews();
+    processCronJobs();
 });
+
+function loadViews(){
+  $("#newReminderModal").load("views/new.html"); 
+  $("#editReminderModal").load("views/edit.html"); 
+  $("#alertNotify").load("views/alertNotify.html"); 
+  $('#containerDiv').load("views/upcoming.html")
+}
+
+// Events
 
 // Tab selection
 $(document).on("click", ".sidebarItem", function(){
@@ -15,28 +24,82 @@ $(document).on("click", ".sidebarItem", function(){
     $('#containerDiv').load("views/"+this.id+".html");
 });
 
-// on load
-$(document).ready(function(){
-    loadDefaultDiv();
-    processCronJobs();
-});
-
-function loadAlertSwitch(index){
-  $("#alertOn"+index).bootstrapSwitch();
-}
-
 // Close windows
 $(document).on("click","#closeIcon", function(){
-	window.close();
+  window.close();
 });
 
+// Cleanup error on datepicker
 $(document).on("click",".input-group-addon", function(){
   $("#datetimepicker1").removeClass("has-error")
 });
 
-// load default div
-function loadDefaultDiv(){
-  $('#containerDiv').load("views/upcoming.html")
+// Cancel Button action
+$(document).on("click","#cancelBtn", function(){
+  clearForm(true);
+});
+
+// Save Button action
+$(document).on("click","#saveBtn", function(){
+  saveData(()=>{
+    clearForm(false);
+    $('#newReminderModal').modal('hide');
+    displaySavedAlert();
+    updateAllResources();
+  });
+});
+
+// Focus taskname on modal load
+$('#newReminderModal').on('shown.bs.modal', function (event) {
+  $('#newReminderModal #task_name').focus();  
+});
+
+
+$(document).on("click","#updateBtn", function(event){
+  var id = $(this).attr("data-id");;
+  var obj = new Object();
+  obj.name = $("#editReminderModal #task_name").val();
+  obj.category  = $("#editReminderModal #categorySelect2").val();
+  obj.remindOn = $("#editReminderModal #datetimepicker").val();
+  obj.notes = $("#editReminderModal #notes").val();
+  obj.alarm = $("#editReminderModal #alertOn2").prop('checked');
+  var reminderJSON = JSON.stringify(obj);
+  db.updateReminder(id, obj, (noUpdated)=> {
+    displayUpdatedAlert();
+    updateAllResources();
+  });
+});
+
+
+$(document).on("click","#openBtn", function(){
+  var id = $("#alertNotify #openID").val();
+  openEditReminder(id);
+});
+
+
+// Trash Button action
+$(document).on("click",".trashIcon", function(event){
+  var id = getId($(this).attr("id"));
+  $("#modelID").val(id);
+  $('#confirmationDialog').modal({});
+  event.stopPropagation();
+});
+
+// Delete Button action
+$(document).on("click","#delConfirmation", function(event){
+  var id = $("#modelID").val();
+  db.deleteReminder(id, (res)=> {
+    if(res!="Error"){
+      updateAllResources();
+      displayDeleteAlert();
+    }
+  });
+});
+
+// Methods used in html
+
+function loadAlertSwitch(index){
+  $("#alertOn"+index).bootstrapSwitch();
 }
 
 // load the select box
@@ -58,10 +121,6 @@ function loadSelectBox(index){
     });
 }
 
-// Cancel Button action
-$(document).on("click","#cancelBtn", function(){
-  clearForm(true);
-});
 
 // clear the form
 function clearForm(saveCategory){
@@ -74,22 +133,7 @@ function clearForm(saveCategory){
   }
 }
 
-// Save Button action
-$(document).on("click","#saveBtn", function(){
-  saveData(()=>{
-    clearForm(false);
-    $('#newReminderModal').modal('hide');
-    displaySavedAlert();
-    updateAllResources();
-  });
-});
-
-$('#newReminderModal').on('shown.bs.modal', function (event) {
-  $('#newReminderModal #task_name').focus();  
-});
-
-
-// save data to file
+// save data to db
 function saveData(callBack){
 
   if(!isDataValid()){
@@ -114,9 +158,9 @@ function saveData(callBack){
   db.insertIntoDB(item);
 
   callBack();
-  
 }
 
+// Validate data
 function isDataValid(){
   var remindOn = $("#datetimepicker").val()
   if(remindOn==''){
@@ -141,7 +185,7 @@ function displayDeleteAlert(){
   $("#deleteAlert").delay(2000).slideUp().fadeOut("slow");
 }
 
-
+// Update all the resources in all reminders list
 function updateAllResources(){
     db.getAllReminders((remArr)=>{
       $('#allRemList').empty();
@@ -176,31 +220,13 @@ function updateAllResources(){
     });  
 }
 
+// Should be called from pages which require edit.
 function enableEditReminder(){
   $(document).on("click",".itemHeader", function(){
     var id = getId($(this).attr("id"));
     openEditReminder(id);
   });
 }
-
-// Trash Button action
-$(document).on("click",".trashIcon", function(event){
-  var id = getId($(this).attr("id"));
-  $("#modelID").val(id);
-  $('#confirmationDialog').modal({});
-  event.stopPropagation();
-});
-
-// Delete Button action
-$(document).on("click","#delConfirmation", function(event){
-  var id = $("#modelID").val();
-  db.deleteReminder(id, (res)=> {
-    if(res!="Error"){
-      updateAllResources();
-      displayDeleteAlert();
-    }
-  });
-});
 
 /*
 Returns the id value from complete token (<TKN>_<IDVAL>)
@@ -209,6 +235,9 @@ function getId(idToken) {
   return idToken.substring(2)
 }
 
+/*
+Opens the edit reminder modal
+*/
 function openEditReminder(id){
     $('#editReminderModal').modal({});
     $('#editReminderModal').on('shown.bs.modal', function (event) {
@@ -220,6 +249,9 @@ function openEditReminder(id){
     })
 }
 
+/*
+Populate data on Edit Modal
+*/
 function populateData(doc) {
   $("#editReminderModal #task_name").val(doc.name);
   $("#editReminderModal #categorySelect2").val(doc.category);
@@ -232,28 +264,13 @@ function populateData(doc) {
   clearForm(false);
 }
 
-$(document).on("click","#updateBtn", function(event){
-  var id = $(this).attr("data-id");;
-  var obj = new Object();
-  obj.name = $("#editReminderModal #task_name").val();
-  obj.category  = $("#editReminderModal #categorySelect2").val();
-  obj.remindOn = $("#editReminderModal #datetimepicker").val();
-  obj.notes = $("#editReminderModal #notes").val();
-  obj.alarm = $("#editReminderModal #alertOn2").prop('checked');
-  var reminderJSON = JSON.stringify(obj);
-  db.updateReminder(id, obj, (noUpdated)=> {
-    displayUpdatedAlert();
-    updateAllResources();
-  });
-});
-
-
+/*
+Process the cron jobs
+*/
 function processCronJobs(){
   db.getAllReminders((remArr)=>{
     for(item in remArr) {
-      console.log(remArr[item].remindOn);
       var jobId = cron.addJob(remArr[item], openAlert);
-      console.log(jobId);
     }
   });
 }
@@ -265,8 +282,3 @@ function openAlert(doc) {
     $("#alertNotify #openID").val(doc._id);
   });
 }
-
-$(document).on("click","#openBtn", function(){
-  var id = $("#alertNotify #openID").val();
-  openEditReminder(id);
-});

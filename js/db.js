@@ -1,5 +1,5 @@
 // Database scripts
-var Nedb = require("./nedb.min.js");
+var Nedb = require("./lib/nedb.min.js");
 
 var db = new Nedb({ filename: 'axa-reminder-data/datafile.db', autoload: true });
 
