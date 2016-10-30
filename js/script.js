@@ -271,7 +271,6 @@ function processCronJobs(){
   db.getAllReminders((remArr)=>{
     for(item in remArr) {
       var jobId = cron.addJob(remArr[item], openAlert);
-      console.log(jobId);
     }
   });
 }
