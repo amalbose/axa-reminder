@@ -1,7 +1,7 @@
 {
-  "name": "electron-sample",
+  "name": "axa-reminder",
   "version": "1.0.0",
-  "description": "Electron sample project",
+  "description": "A reminder app using Electron",
   "main": "main.js",
   "scripts": {
     "start": "electron main.js"
@@ -9,6 +9,7 @@
   "author": "amalbose",
   "license": "ISC",
   "dependencies": {
+    "cron": "^1.1.1",
     "electron": "^1.4.0",
     "jquery": "^3.1.0"
   }
