@@ -187,9 +187,9 @@ ul.nav.nav-tabs li>a {
 }
 
 .nav-tabs>li>a {
-    background-color: #9dd45f;
-    border: 1px solid #9dd45f;
-    border-bottom-color: #fff;
+    background-color: #cde4b2;
+    border: 1px solid #cde4b2;
+    border-bottom-color: #cde4b2;
 }
 
 .nav-tabs>li>a:hover {

@@ -214,11 +214,11 @@ function updateAllResources(){
             statusCls = "statusC";
           }
           var rowChbx = $('<span/>', { class : "glyphicon glyphicon-ok checkBoxImg " + statusCls , "id" : "c_"+remArr[item]._id });
-          var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseExample"+item, "aria-expanded" : "false", "aria-controls" : "collapseExample" })
+          var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseAll"+item, "aria-expanded" : "false", "aria-controls" : "collapseAll" })
           var rowH4 = $('<h5/>', {class : "list-group-item-heading itemHeader pointerCursor", text : remArr[item].name, "id" : "n_"+remArr[item]._id});
           var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
           var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn });
-          var rowNotesD = $('<div/>', {class : "collapse", id : "collapseExample"+item });
+          var rowNotesD = $('<div/>', {class : "collapse", id : "collapseAll"+item });
           var rowNotes = $('<div/>', { text : remArr[item].notes });
           var rowAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon"});
           var rowIAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon invisible"});
@@ -255,11 +255,11 @@ function updateCompResources(){
             statusCls = "statusC";
           }
           var rowChbx = $('<span/>', { class : "glyphicon glyphicon-ok checkBoxImg " + statusCls , "id" : "c_"+remArr[item]._id });
-          var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseExample"+item, "aria-expanded" : "false", "aria-controls" : "collapseExample" })
+          var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseComp"+item, "aria-expanded" : "false", "aria-controls" : "collapseComp" })
           var rowH4 = $('<h5/>', {class : "list-group-item-heading itemHeader pointerCursor", text : remArr[item].name, "id" : "n_"+remArr[item]._id});
           var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
           var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn });
-          var rowNotesD = $('<div/>', {class : "collapse", id : "collapseExample"+item });
+          var rowNotesD = $('<div/>', {class : "collapse", id : "collapseComp"+item });
           var rowNotes = $('<div/>', { text : remArr[item].notes });
           var rowAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon"});
           var rowIAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon invisible"});
