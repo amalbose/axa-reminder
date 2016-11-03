@@ -46,6 +46,7 @@ $(document).on("click","#saveBtn", function(){
     $('#newReminderModal').modal('hide');
     displaySavedAlert();
     updateAllResources();
+    updateCompResources();
   });
 });
 
@@ -66,6 +67,7 @@ $(document).on("click","#updateBtn", function(event){
   db.updateReminder(id, obj, (noUpdated)=> {
     displayUpdatedAlert();
     updateAllResources();
+    updateCompResources();
   });
 });
 
@@ -165,7 +167,8 @@ function saveData(callBack){
     alarm: alarm,
     category: category, 
     notes: notes, 
-    remindOn: remindOn 
+    remindOn: remindOn,
+    status: false 
   };
 
   // insert into db
@@ -201,7 +204,7 @@ function displayDeleteAlert(){
 
 // Update all the resources in all reminders list
 function updateAllResources(){
-    db.getAllReminders((remArr)=>{
+    db.getActiveReminders((remArr)=>{
       $('#allRemList').empty();
         for(item in remArr) {
           var rowC = $('<div/>', { class : "category label label-success", text : remArr[item].category });
@@ -236,6 +239,47 @@ function updateAllResources(){
           rowA.append(rowD);
           rowA.append(rowNotesD);
           $('#allRemList').append(rowA);
+        }
+    });  
+}
+
+// Update all the resources in all reminders list
+function updateCompResources(){
+    db.getCompReminders((remArr)=>{
+      $('#compRemList').empty();
+        for(item in remArr) {
+          var rowC = $('<div/>', { class : "category label label-success", text : remArr[item].category });
+          var rowD = $('<div/>', { class : "itemCont" });
+          var statusCls = "statusI";
+          if(remArr[item].status) {
+            statusCls = "statusC";
+          }
+          var rowChbx = $('<span/>', { class : "glyphicon glyphicon-ok checkBoxImg " + statusCls , "id" : "c_"+remArr[item]._id });
+          var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseExample"+item, "aria-expanded" : "false", "aria-controls" : "collapseExample" })
+          var rowH4 = $('<h5/>', {class : "list-group-item-heading itemHeader pointerCursor", text : remArr[item].name, "id" : "n_"+remArr[item]._id});
+          var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
+          var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn });
+          var rowNotesD = $('<div/>', {class : "collapse", id : "collapseExample"+item });
+          var rowNotes = $('<div/>', { text : remArr[item].notes });
+          var rowAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon"});
+          var rowIAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon invisible"});
+          var rowTrash = $("<span/>", {class : "glyphicon glyphicon-trash trashIcon pointerCursor", "id" : "t_"+remArr[item]._id});
+
+          rowNotesD.append(rowNotes);
+          rowD.append(rowC);
+          rowD.append(rowH4);
+          rowD.append(rowI);
+          rowD.append(rowP);
+          if(remArr[item].alarm) {
+            rowD.append(rowAlarm);
+          } else {
+            rowD.append(rowIAlarm);
+          }
+          rowD.append(rowTrash);
+          rowA.append(rowChbx);
+          rowA.append(rowD);
+          rowA.append(rowNotesD);
+          $('#compRemList').append(rowA);
         }
     });  
 }
@@ -288,9 +332,10 @@ function populateData(doc) {
 Process the cron jobs
 */
 function processCronJobs(){
-  db.getAllReminders((remArr)=>{
+  db.getActiveReminders((remArr)=>{
     for(item in remArr) {
       var jobId = cron.addJob(remArr[item], openAlert);
+      console.log(jobId);
     }
   });
 }
@@ -309,5 +354,6 @@ function setCompleted(idVal, completed) {
     db.updateReminder(idVal, obj, (noUpdated)=> {
     displayUpdatedAlert();
     updateAllResources();
+    updateCompResources();
   });
 }

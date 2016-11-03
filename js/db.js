@@ -24,6 +24,19 @@ exports.insertIntoDB = function(data) {
 
 exports.getAllReminders = function(callback) {
 	db.find({}).sort({ remindOn: 1 }).exec(function (err, docs) {
+		console.log(docs)
+	  callback(docs);
+	});
+}
+
+exports.getActiveReminders = function(callback) {
+	db.find({ status : false }).sort({ remindOn: 1 }).exec(function (err, docs) {
+	  callback(docs);
+	});
+}
+
+exports.getCompReminders = function(callback) {
+	db.find({ status : true }).sort({ remindOn: 1 }).exec(function (err, docs) {
 	  callback(docs);
 	});
 }
