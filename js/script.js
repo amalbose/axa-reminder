@@ -2,6 +2,8 @@ var fs = require('fs');
 var db = require("./js/db.js");
 var cron = require("./js/cron.js");
 
+var cJobs = {};
+
 // on load
 $(document).ready(function(){
     loadViews();
@@ -47,6 +49,7 @@ $(document).on("click","#saveBtn", function(){
     displaySavedAlert();
     updateAllResources();
     updateCompResources();
+    reloadCronJobs();
   });
 });
 
@@ -68,6 +71,7 @@ $(document).on("click","#updateBtn", function(event){
     displayUpdatedAlert();
     updateAllResources();
     updateCompResources();
+    reloadCronJobs();
   });
 });
 
@@ -75,6 +79,12 @@ $(document).on("click","#updateBtn", function(event){
 $(document).on("click","#openBtn", function(){
   var id = $("#alertNotify #openID").val();
   openEditReminder(id);
+});
+
+$(document).on("click","#compConfirmation", function(){
+  var id = $("#alertNotify #openID").val();
+  setCompleted(id, true);
+  reloadCronJobs();
 });
 
 $(document).on("click", ".checkBoxImg", function(event){
@@ -89,7 +99,14 @@ $(document).on("click", ".checkBoxImg", function(event){
     $(this).css('color', incompleteColor);
   }
   setCompleted(id, completed);
+  reloadCronJobs();
   event.stopPropagation();
+});
+
+$(document).on("click", "#compBtn", function(event){
+  var id = $(this).attr("data-id");
+  setCompleted(id, true);
+  reloadCronJobs();
 });
 
 
@@ -107,7 +124,9 @@ $(document).on("click","#delConfirmation", function(event){
   db.deleteReminder(id, (res)=> {
     if(res!="Error"){
       updateAllResources();
+      updateCompResources();
       displayDeleteAlert();
+      reloadCronJobs();
     }
   });
 });
@@ -324,6 +343,7 @@ function populateData(doc) {
       $("#alertOn2").bootstrapSwitch('state', false);
   }
   $("#editReminderModal #notes").val(doc.notes);
+  $("#editReminderModal #compBtn").attr("data-id", doc._id);
   $("#editReminderModal #updateBtn").attr("data-id", doc._id);
   clearForm(false);
 }
@@ -335,9 +355,24 @@ function processCronJobs(){
   db.getActiveReminders((remArr)=>{
     for(item in remArr) {
       var jobId = cron.addJob(remArr[item], openAlert);
-      console.log(jobId);
+      cJobs[remArr[item]._id] = jobId;
     }
   });
+}
+
+function reloadCronJobs(){
+  stopAllJobs();
+  processCronJobs();
+}
+
+function stopAllJobs(){
+  for(idV in cJobs) {
+    stopJob(idV);
+  }
+}
+
+function stopJob(idVal){
+  cJobs[idVal].stop();
 }
 
 function openAlert(doc) {
