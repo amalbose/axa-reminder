@@ -19,7 +19,7 @@ function loadViews(){
   $('#containerDiv').load("views/upcoming.html")
 }
 
-// Events
+// EventsQ
 
 // Tab selection
 $(document).on("click", ".sidebarItem", function(){
@@ -132,6 +132,34 @@ $(document).on("click","#delConfirmation", function(event){
     }
   });
 });
+
+$(document).on("click", "#resetCategories", ()=>{
+  loadAllCategories(loadColorPicker);
+});
+
+$(document).on("click", "#updCategories", ()=>{
+  fs.readFile(catFile, 'utf8', function (err, data) {
+    if (err)
+     throw err;
+    
+    obj = JSON.parse(data);
+    var newCats = [];
+    // update options
+    $.each(obj, function (index, item) {
+      if(item.name == ""){
+        return true;
+      }
+      var newColor = $("#i_"+item.id).val();
+      var newCat = {}
+      newCat.id = item.id;
+      newCat.name = item.name;
+      newCat.color = newColor;
+      newCats[item.id - 1] = newCat;
+    });
+    saveCategories(newCats);
+  });
+});
+
 
 // Methods used in html
 
@@ -395,23 +423,17 @@ function setCompleted(idVal, completed) {
   });
 }
 
-function editCategory(id, name, color) {
-  readJson(catFile,(catArr)=> {
-    var entry = catArr[id - 1];
-    entry.name = name;
-    entry.color = color;
-    
-    var prettyJSON = JSON.stringify(catArr, null, 4);
-    console.log(prettyJSON)
+function saveCategories(newCats) {
+  var prettyJSON = JSON.stringify(newCats, null, 4);
+  console.log(prettyJSON)
 
-    fs.writeFile(catFile, prettyJSON, function(err) {
-        if(err) {
-            return console.log(err);
-        }
-    }); 
-    loadSelectBox(1);
-    loadSelectBox(2);
+  fs.writeFile(catFile, prettyJSON, function(err) {
+      if(err) {
+          return console.log(err);
+      }
   }); 
+  loadSelectBox(1);
+  loadSelectBox(2);
 }
 
 function saveCategory(name, color){
@@ -475,11 +497,11 @@ function loadAllCategories(callback){
       }
 
       var rowA = $('<a/>', {class : "list-group-item"})
-      var rowD = $('<div/>', { class : "col-sm-3 control-label" });
+      var rowD = $('<div/>', { class : "col-sm-3 control-label topPadding" });
       var rowH4 = $('<h5/>', {class : "list-group-item-heading catHeader pointerCursor", text : item.name, "id" : "n_"+item.id});
       var pDiv = $('<div/>' , {class : "input-group colorpicker-component cPicker"});
-      var pInp = $('<input/>', {class: "form-control" , "type" : "text", "value" : item.color});
-      var pSpan = $('<span/>', {class : "input-group-addon noDrag"});
+      var pInp = $('<input/>', {class: "form-control hexValue" , "type" : "text", "value" : item.color, id : "i_"+item.id});
+      var pSpan = $('<span/>', {class : "input-group-addon noDrag pointerCursor"});
       var pI = $('<i/>', { class : "noDrag"});
 
       

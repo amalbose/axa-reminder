@@ -67,6 +67,14 @@ input, button, textarea,.sidebar_brand, :focus {
   cursor: pointer;
 }
 
+.flRight{
+  float: right;
+}
+
+.mLeft {
+  margin-left: 10px;
+}
+
 .btn-circle {
   width: 50px;
   height: 50px;
@@ -203,4 +211,13 @@ ul.nav.nav-tabs li>a {
 
 .cPicker{
   padding-left: 50px;
+}
+
+.topPadding {
+  padding-top: 7px;
+}
+
+#allCategories{
+  clear: both;
+  padding-top: 20px;
 }
