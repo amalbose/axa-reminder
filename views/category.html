@@ -1,28 +1,8 @@
 <h1>Category</h1>
 			    
-<div class="tableContainer" id="allReminders">
-
-	<div class="list-group" id="allRemList" >
-	
-		<a class="list-group-item itemToggle pointerCursor" data-toggle="collapse" data-target="#collapseExample0" aria-expanded="false" aria-controls="collapseExample">
-		<!-- <span class="glyphicon glyphicon-unchecked checkBoxImg invisible"></span> -->
-		<span class="glyphicon glyphicon-ok checkBoxImg"></span>
-		
-		<div class="itemCont">
-
-		<div class="category label label-success">Anniversary</div>
-		<h5 class="list-group-item-heading itemHeader pointerCursor" id="n_O4iSP1SASst288jt">Updated 12</h5><span class="glyphicon glyphicon-edit pointerCursor editBtn"></span><p class="list-group-item-text">10/03/2016 12:06 PM</p><span class="glyphicon glyphicon-bell alarmIcon"></span><span class="glyphicon glyphicon-trash trashIcon pointerCursor" id="t_O4iSP1SASst288jt"></span>
-
-		</div>
-
-		<div class="collapse" id="collapseExample0"><div>notes</div>
-			
-			</div>
-</a>
-	</div>
-
-<script type="text/javascript">
-	enableEditReminder();
-</script>
+<div class="tableContainer" id="allCategories">
+	<div class="list-group tab-pane noDrag" id="allCatList" ></div>
+  <script>
+  	loadAllCategories(loadColorPicker);
+  </script>
 </div>
-

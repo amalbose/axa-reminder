@@ -3,6 +3,8 @@ var db = require("./js/db.js");
 var cron = require("./js/cron.js");
 
 var cJobs = {};
+var catList = [];
+var catFile = 'data/categories.json'
 
 // on load
 $(document).ready(function(){
@@ -141,7 +143,7 @@ function loadAlertSwitch(index){
 function loadSelectBox(index){
     var obj;
     var dropDown = $('#categorySelect'+index).empty().html(' ');
-    fs.readFile('data/categories.json', 'utf8', function (err, data) {
+    fs.readFile(catFile, 'utf8', function (err, data) {
       if (err)
        throw err;
       
@@ -391,4 +393,156 @@ function setCompleted(idVal, completed) {
     updateAllResources();
     updateCompResources();
   });
+}
+
+function editCategory(id, name, color) {
+  readJson(catFile,(catArr)=> {
+    var entry = catArr[id - 1];
+    entry.name = name;
+    entry.color = color;
+    
+    var prettyJSON = JSON.stringify(catArr, null, 4);
+    console.log(prettyJSON)
+
+    fs.writeFile(catFile, prettyJSON, function(err) {
+        if(err) {
+            return console.log(err);
+        }
+    }); 
+    loadSelectBox(1);
+    loadSelectBox(2);
+  }); 
+}
+
+function saveCategory(name, color){
+  readJson(catFile,(catArr)=> {
+   var newId = Object.keys(catArr).length + 1;
+    var item = {
+      id: newId,
+      name: name, 
+      color: color,
+      type: 'custom'
+    };
+
+    if(catArr==''){
+      catArr = []
+      catArr.push(item);
+    }
+    else
+      catArr.push(item)
+    
+    var prettyJSON = JSON.stringify(catArr, null, 4);
+    console.log(prettyJSON)
+
+    fs.writeFile(catFile, prettyJSON, function(err) {
+        if(err) {
+            return console.log(err);
+        }
+    }); 
+    loadSelectBox(1);
+    loadSelectBox(2);
+  }); 
+}
+
+// read json file
+function readJson(file,callBack){
+  if (!fs.existsSync(file)) {
+    callBack('')
+  }
+  fs.readFile(catFile, 'utf8', function (err, data) {
+  if (err)
+    throw err;
+  
+  if(data==''){
+    callBack('')
+  }
+  var res = JSON.parse(data);
+  callBack(res)
+  });
+}
+
+function loadAllCategories(callback){
+  $('#allCategories').empty();
+  fs.readFile(catFile, 'utf8', function (err, data) {
+    if (err)
+     throw err;
+    
+    obj = JSON.parse(data);
+    // update options
+    $.each(obj, function (index, item) {
+      if(item.name == ""){
+        return true;
+      }
+
+      var rowA = $('<a/>', {class : "list-group-item"})
+      var rowD = $('<div/>', { class : "col-sm-3 control-label" });
+      var rowH4 = $('<h5/>', {class : "list-group-item-heading catHeader pointerCursor", text : item.name, "id" : "n_"+item.id});
+      var pDiv = $('<div/>' , {class : "input-group colorpicker-component cPicker"});
+      var pInp = $('<input/>', {class: "form-control" , "type" : "text", "value" : item.color});
+      var pSpan = $('<span/>', {class : "input-group-addon noDrag"});
+      var pI = $('<i/>', { class : "noDrag"});
+
+      
+      pSpan.append(pI);
+      pDiv.append(pInp);
+      pDiv.append(pSpan);
+      rowD.append(rowH4);
+      rowA.append(rowD);
+      rowA.append(pDiv);
+      $('#allCategories').append(rowA);
+    });
+    callback();
+  });
+
+// <div id="cp2" class="input-group colorpicker-component"> 
+// <input type="text" value="#00AABB" class="form-control" /> 
+// <span class="input-group-addon"><i></i></span> 
+// </div> 
+// <script> $(function() { $('#cp2').colorpicker(); });
+//  </script>
+
+
+
+
+    // db.getActiveReminders((remArr)=>{
+    //   $('#allCategories').empty();
+    //     for(item in remArr) {
+    //       var rowC = $('<div/>', { class : "category label label-success", text : remArr[item].category });
+    //       var rowD = $('<div/>', { class : "itemCont" });
+    //       var statusCls = "statusI";
+    //       if(remArr[item].status) {
+    //         statusCls = "statusC";
+    //       }
+    //       var rowChbx = $('<span/>', { class : "glyphicon glyphicon-ok checkBoxImg " + statusCls , "id" : "c_"+remArr[item]._id });
+    //       var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseAll"+item, "aria-expanded" : "false", "aria-controls" : "collapseAll" })
+    //       var rowH4 = $('<h5/>', {class : "list-group-item-heading itemHeader pointerCursor", text : remArr[item].name, "id" : "n_"+remArr[item]._id});
+    //       var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
+    //       var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn });
+    //       var rowNotesD = $('<div/>', {class : "collapse", id : "collapseAll"+item });
+    //       var rowNotes = $('<div/>', { text : remArr[item].notes });
+    //       var rowAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon"});
+    //       var rowIAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon invisible"});
+    //       var rowTrash = $("<span/>", {class : "glyphicon glyphicon-trash trashIcon pointerCursor", "id" : "t_"+remArr[item]._id});
+
+    //       rowNotesD.append(rowNotes);
+    //       rowD.append(rowC);
+    //       rowD.append(rowH4);
+    //       rowD.append(rowI);
+    //       rowD.append(rowP);
+    //       if(remArr[item].alarm) {
+    //         rowD.append(rowAlarm);
+    //       } else {
+    //         rowD.append(rowIAlarm);
+    //       }
+    //       rowD.append(rowTrash);
+    //       rowA.append(rowChbx);
+    //       rowA.append(rowD);
+    //       rowA.append(rowNotesD);
+    //       $('#allRemList').append(rowA);
+    //     }
+    // });  
+}
+
+function loadColorPicker() {
+ $('.cPicker').colorpicker(); 
 }

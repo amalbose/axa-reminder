@@ -14,6 +14,11 @@ input[type="email"],
 input[type="range"],
 button,
 select,
+i,
+#allCategories,
+.colorpicker,
+.noDrag,
+.cPicker,
 .tableContainer,
 .date,
 .bootstrap-datetimepicker-widget,
@@ -25,7 +30,7 @@ textarea {
 	-webkit-app-region: no-drag;
 }
 
-h1, h2, h3, h4, h5, h6, span, p {
+h1, h2, h3, h4, h5, h6, span, p, i {
     -webkit-user-select: none;
 }
 
@@ -100,7 +105,7 @@ input, button, textarea,.sidebar_brand, :focus {
   background-color: #aaa;
 }
 
-.itemHeader {
+.itemHeader, .catHeader {
   font-weight: bold;
   display: inline-block;
 }
@@ -194,4 +199,8 @@ ul.nav.nav-tabs li>a {
 
 .nav-tabs>li>a:hover {
     border-bottom-color: #fff;
+}
+
+.cPicker{
+  padding-left: 50px;
 }

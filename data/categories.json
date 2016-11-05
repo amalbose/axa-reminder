@@ -1,27 +1,44 @@
 [
-   {
-      "id":0,
-      "name":"",
-      "type":"default"
-   },
-   {
-      "id":1,
-      "name":"Birthday",
-      "type":"default"
-   },
-   {
-      "id":2,
-      "name":"Anniversary",
-      "type":"default"
-   },
-   {
-      "id":3,
-      "name":"Automobile",
-      "type":"default"
-   },
-   {
-      "id":4,
-      "name":"Finance",
-      "type":"default"
-   }
+    {
+        "id": 1,
+        "name": "",
+        "type": "default",
+        "color": "#8BC34A"
+    },
+    {
+        "id": 2,
+        "name": "Birthday",
+        "type": "default",
+        "color": "#8BC34A"
+    },
+    {
+        "id": 3,
+        "name": "Anniversary",
+        "type": "default",
+        "color": "#8BC34A"
+    },
+    {
+        "id": 4,
+        "name": "Automobile",
+        "type": "default",
+        "color": "#8BC34A"
+    },
+    {
+        "id": 5,
+        "name": "Finance",
+        "type": "default",
+        "color": "#8BC34A"
+    },
+    {
+        "id": 6,
+        "name": "New Name1",
+        "color": "#ff3344",
+        "type": "custom"
+    },
+    {
+        "id": 7,
+        "name": "New",
+        "color": "#34f333",
+        "type": "custom"
+    }
 ]

@@ -2,18 +2,13 @@
 var Nedb = require("./lib/nedb.min.js");
 
 var db = new Nedb({ filename: 'axa-reminder-data/datafile.db', autoload: true });
+var catdb = new Nedb({ filename: 'axa-reminder-data/catfile.db', autoload: true });
 
 // db.remove({}, { multi: true }, function (err, numRemoved) {});
+// catdb.remove({}, { multi: true }, function (err, numRemoved) {});
 
-// db.insert({ planet: 'Earth' }, function (err) {
-// db.find({}, function (err, docs) {
-// console.log(docs)
-// });
-// });
+// DATA
 
-/*
-Insert data into the database
-*/
 exports.insertIntoDB = function(data) {
 	db.insert(data, function (err) {
 		db.find({}, function (err, docs) {
@@ -24,7 +19,6 @@ exports.insertIntoDB = function(data) {
 
 exports.getAllReminders = function(callback) {
 	db.find({}).sort({ remindOn: 1 }).exec(function (err, docs) {
-		console.log(docs)
 	  callback(docs);
 	});
 }
