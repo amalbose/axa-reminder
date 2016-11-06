@@ -153,10 +153,6 @@ h5:hover + .editBtn {
     left: 15px;
 }
 
-.label-success {
-    background-color: #8BC34A !important;
-}
-
 .smodal-header {
   padding: 10px 10px 10px 10px;
 }

@@ -3,13 +3,16 @@ var db = require("./js/db.js");
 var cron = require("./js/cron.js");
 
 var cJobs = {};
-var catList = [];
 var catFile = 'data/categories.json'
+var categoriesList = {};
 
 // on load
 $(document).ready(function(){
+    categoriesList = getCategoryColors();
     loadViews();
     processCronJobs();
+    console.log("Getting value ")
+    console.log(categoriesList)
 });
 
 function loadViews(){
@@ -151,6 +154,9 @@ $(document).on("click", "#updCategories", ()=>{
       }
       var newColor = $("#i_"+item.id).val();
       var newCat = {}
+      // update catlist
+      categoriesList[newCat.name] = newColor;
+
       newCat.id = item.id;
       newCat.name = item.name;
       newCat.color = newColor;
@@ -160,6 +166,15 @@ $(document).on("click", "#updCategories", ()=>{
   });
 });
 
+function updateReminders(){
+  updateAllResources();
+  updateCompResources();
+}
+
+function reloadCategories(){
+  loadCategoriesForFile();
+  updateReminders()
+}
 
 // Methods used in html
 
@@ -256,7 +271,7 @@ function updateAllResources(){
     db.getActiveReminders((remArr)=>{
       $('#allRemList').empty();
         for(item in remArr) {
-          var rowC = $('<div/>', { class : "category label label-success", text : remArr[item].category });
+          var rowC = $('<div/>', { class : "category label", text : remArr[item].category, "id" : "ca_"+remArr[item]._id });
           var rowD = $('<div/>', { class : "itemCont" });
           var statusCls = "statusI";
           if(remArr[item].status) {
@@ -289,6 +304,8 @@ function updateAllResources(){
           rowA.append(rowNotesD);
           $('#allRemList').append(rowA);
         }
+
+        loadCategoryColor();
     });  
 }
 
@@ -297,7 +314,7 @@ function updateCompResources(){
     db.getCompReminders((remArr)=>{
       $('#compRemList').empty();
         for(item in remArr) {
-          var rowC = $('<div/>', { class : "category label label-success", text : remArr[item].category });
+          var rowC = $('<div/>', { class : "category label", text : remArr[item].category,"id" : "ca_"+remArr[item]._id  });
           var rowD = $('<div/>', { class : "itemCont" });
           var statusCls = "statusI";
           if(remArr[item].status) {
@@ -330,6 +347,7 @@ function updateCompResources(){
           rowA.append(rowNotesD);
           $('#compRemList').append(rowA);
         }
+        loadCategoryColor();
     });  
 }
 
@@ -431,9 +449,10 @@ function saveCategories(newCats) {
       if(err) {
           return console.log(err);
       }
+      reloadCategories();
   }); 
   loadSelectBox(1);
-  loadSelectBox(2);
+  loadSelectBox(2); 
 }
 
 function saveCategory(name, color){
@@ -471,7 +490,7 @@ function readJson(file,callBack){
   if (!fs.existsSync(file)) {
     callBack('')
   }
-  fs.readFile(catFile, 'utf8', function (err, data) {
+  fs.readFile(file, 'utf8', function (err, data) {
   if (err)
     throw err;
   
@@ -504,7 +523,6 @@ function loadAllCategories(callback){
       var pSpan = $('<span/>', {class : "input-group-addon noDrag pointerCursor"});
       var pI = $('<i/>', { class : "noDrag"});
 
-      
       pSpan.append(pI);
       pDiv.append(pInp);
       pDiv.append(pSpan);
@@ -515,56 +533,44 @@ function loadAllCategories(callback){
     });
     callback();
   });
-
-// <div id="cp2" class="input-group colorpicker-component"> 
-// <input type="text" value="#00AABB" class="form-control" /> 
-// <span class="input-group-addon"><i></i></span> 
-// </div> 
-// <script> $(function() { $('#cp2').colorpicker(); });
-//  </script>
-
-
-
-
-    // db.getActiveReminders((remArr)=>{
-    //   $('#allCategories').empty();
-    //     for(item in remArr) {
-    //       var rowC = $('<div/>', { class : "category label label-success", text : remArr[item].category });
-    //       var rowD = $('<div/>', { class : "itemCont" });
-    //       var statusCls = "statusI";
-    //       if(remArr[item].status) {
-    //         statusCls = "statusC";
-    //       }
-    //       var rowChbx = $('<span/>', { class : "glyphicon glyphicon-ok checkBoxImg " + statusCls , "id" : "c_"+remArr[item]._id });
-    //       var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseAll"+item, "aria-expanded" : "false", "aria-controls" : "collapseAll" })
-    //       var rowH4 = $('<h5/>', {class : "list-group-item-heading itemHeader pointerCursor", text : remArr[item].name, "id" : "n_"+remArr[item]._id});
-    //       var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
-    //       var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn });
-    //       var rowNotesD = $('<div/>', {class : "collapse", id : "collapseAll"+item });
-    //       var rowNotes = $('<div/>', { text : remArr[item].notes });
-    //       var rowAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon"});
-    //       var rowIAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon invisible"});
-    //       var rowTrash = $("<span/>", {class : "glyphicon glyphicon-trash trashIcon pointerCursor", "id" : "t_"+remArr[item]._id});
-
-    //       rowNotesD.append(rowNotes);
-    //       rowD.append(rowC);
-    //       rowD.append(rowH4);
-    //       rowD.append(rowI);
-    //       rowD.append(rowP);
-    //       if(remArr[item].alarm) {
-    //         rowD.append(rowAlarm);
-    //       } else {
-    //         rowD.append(rowIAlarm);
-    //       }
-    //       rowD.append(rowTrash);
-    //       rowA.append(rowChbx);
-    //       rowA.append(rowD);
-    //       rowA.append(rowNotesD);
-    //       $('#allRemList').append(rowA);
-    //     }
-    // });  
 }
 
 function loadColorPicker() {
  $('.cPicker').colorpicker(); 
+}
+
+function getCategoryColors(){
+  if(Object.size(categoriesList) < 1) {
+    console.log("Loading categories");
+    loadCategoriesForFile();
+  }
+  return categoriesList;
+  
+}
+
+function loadCategoriesForFile(){
+  var data = fs.readFileSync(catFile, 'utf8');
+    var obj = JSON.parse(data);
+    for(index in obj) {
+      categoriesList[obj[index].name] = obj[index].color;
+  }
+}
+
+Object.size = function(arr) 
+{
+    var size = 0;
+    for (var key in arr) 
+    {
+        if (arr.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+
+function loadCategoryColor(){
+  $( ".category" ).each(function( index ) {
+    var cat = $(this).text();
+    var id = $(this).attr("id"); 
+    var color = categoriesList[cat];
+    $("#"+id).css('background-color', color);
+  });
 }
