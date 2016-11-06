@@ -191,6 +191,10 @@ h5:hover + .editBtn {
   border-top-left-radius: 0px !important;
 }
 
+div#allCategories .list-group-item:first-child {
+    border-top-left-radius: 4px !important;
+}
+
 ul.nav.nav-tabs li>a {
     color: #333;
 }
@@ -203,10 +207,6 @@ ul.nav.nav-tabs li>a {
 
 .nav-tabs>li>a:hover {
     border-bottom-color: #fff;
-}
-
-.cPicker{
-  padding-left: 50px;
 }
 
 .topPadding {

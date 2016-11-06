@@ -11,8 +11,6 @@ $(document).ready(function(){
     categoriesList = getCategoryColors();
     loadViews();
     processCronJobs();
-    console.log("Getting value ")
-    console.log(categoriesList)
 });
 
 function loadViews(){
@@ -52,8 +50,7 @@ $(document).on("click","#saveBtn", function(){
     clearForm(false);
     $('#newReminderModal').modal('hide');
     displaySavedAlert();
-    updateAllResources();
-    updateCompResources();
+    updateReminders();
     reloadCronJobs();
   });
 });
@@ -74,8 +71,7 @@ $(document).on("click","#updateBtn", function(event){
   obj.alarm = $("#editReminderModal #alertOn2").prop('checked');
   db.updateReminder(id, obj, (noUpdated)=> {
     displayUpdatedAlert();
-    updateAllResources();
-    updateCompResources();
+    updateReminders();
     reloadCronJobs();
   });
 });
@@ -128,8 +124,7 @@ $(document).on("click","#delConfirmation", function(event){
   var id = $("#modelID").val();
   db.deleteReminder(id, (res)=> {
     if(res!="Error"){
-      updateAllResources();
-      updateCompResources();
+      updateReminders();
       displayDeleteAlert();
       reloadCronJobs();
     }
@@ -269,86 +264,54 @@ function displayDeleteAlert(){
 // Update all the resources in all reminders list
 function updateAllResources(){
     db.getActiveReminders((remArr)=>{
-      $('#allRemList').empty();
-        for(item in remArr) {
-          var rowC = $('<div/>', { class : "category label", text : remArr[item].category, "id" : "ca_"+remArr[item]._id });
-          var rowD = $('<div/>', { class : "itemCont" });
-          var statusCls = "statusI";
-          if(remArr[item].status) {
-            statusCls = "statusC";
-          }
-          var rowChbx = $('<span/>', { class : "glyphicon glyphicon-ok checkBoxImg " + statusCls , "id" : "c_"+remArr[item]._id });
-          var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseAll"+item, "aria-expanded" : "false", "aria-controls" : "collapseAll" })
-          var rowH4 = $('<h5/>', {class : "list-group-item-heading itemHeader pointerCursor", text : remArr[item].name, "id" : "n_"+remArr[item]._id});
-          var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
-          var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn });
-          var rowNotesD = $('<div/>', {class : "collapse", id : "collapseAll"+item });
-          var rowNotes = $('<div/>', { text : remArr[item].notes });
-          var rowAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon"});
-          var rowIAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon invisible"});
-          var rowTrash = $("<span/>", {class : "glyphicon glyphicon-trash trashIcon pointerCursor", "id" : "t_"+remArr[item]._id});
-
-          rowNotesD.append(rowNotes);
-          rowD.append(rowC);
-          rowD.append(rowH4);
-          rowD.append(rowI);
-          rowD.append(rowP);
-          if(remArr[item].alarm) {
-            rowD.append(rowAlarm);
-          } else {
-            rowD.append(rowIAlarm);
-          }
-          rowD.append(rowTrash);
-          rowA.append(rowChbx);
-          rowA.append(rowD);
-          rowA.append(rowNotesD);
-          $('#allRemList').append(rowA);
-        }
-
-        loadCategoryColor();
+      populateReminders('#allRemList',remArr);
     });  
 }
 
 // Update all the resources in all reminders list
 function updateCompResources(){
-    db.getCompReminders((remArr)=>{
-      $('#compRemList').empty();
-        for(item in remArr) {
-          var rowC = $('<div/>', { class : "category label", text : remArr[item].category,"id" : "ca_"+remArr[item]._id  });
-          var rowD = $('<div/>', { class : "itemCont" });
-          var statusCls = "statusI";
-          if(remArr[item].status) {
-            statusCls = "statusC";
-          }
-          var rowChbx = $('<span/>', { class : "glyphicon glyphicon-ok checkBoxImg " + statusCls , "id" : "c_"+remArr[item]._id });
-          var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseComp"+item, "aria-expanded" : "false", "aria-controls" : "collapseComp" })
-          var rowH4 = $('<h5/>', {class : "list-group-item-heading itemHeader pointerCursor", text : remArr[item].name, "id" : "n_"+remArr[item]._id});
-          var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
-          var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn });
-          var rowNotesD = $('<div/>', {class : "collapse", id : "collapseComp"+item });
-          var rowNotes = $('<div/>', { text : remArr[item].notes });
-          var rowAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon"});
-          var rowIAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon invisible"});
-          var rowTrash = $("<span/>", {class : "glyphicon glyphicon-trash trashIcon pointerCursor", "id" : "t_"+remArr[item]._id});
+  db.getCompReminders((remArr)=>{
+    populateReminders('#compRemList',remArr);
+  });
+}
 
-          rowNotesD.append(rowNotes);
-          rowD.append(rowC);
-          rowD.append(rowH4);
-          rowD.append(rowI);
-          rowD.append(rowP);
-          if(remArr[item].alarm) {
-            rowD.append(rowAlarm);
-          } else {
-            rowD.append(rowIAlarm);
-          }
-          rowD.append(rowTrash);
-          rowA.append(rowChbx);
-          rowA.append(rowD);
-          rowA.append(rowNotesD);
-          $('#compRemList').append(rowA);
-        }
-        loadCategoryColor();
-    });  
+function populateReminders(elementId, remArr) {
+  $(elementId).empty();
+  for(item in remArr) {
+  var rowC = $('<div/>', { class : "category label", text : remArr[item].category,"id" : "ca_"+remArr[item]._id  });
+  var rowD = $('<div/>', { class : "itemCont" });
+  var statusCls = "statusI";
+  if(remArr[item].status) {
+    statusCls = "statusC";
+  }
+  var rowChbx = $('<span/>', { class : "glyphicon glyphicon-ok checkBoxImg " + statusCls , "id" : "c_"+remArr[item]._id });
+  var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseComp"+item, "aria-expanded" : "false", "aria-controls" : "collapseComp" })
+  var rowH4 = $('<h5/>', {class : "list-group-item-heading itemHeader pointerCursor", text : remArr[item].name, "id" : "n_"+remArr[item]._id});
+  var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
+  var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn });
+  var rowNotesD = $('<div/>', {class : "collapse", id : "collapseComp"+item });
+  var rowNotes = $('<div/>', { text : remArr[item].notes });
+  var rowAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon"});
+  var rowIAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon invisible"});
+  var rowTrash = $("<span/>", {class : "glyphicon glyphicon-trash trashIcon pointerCursor", "id" : "t_"+remArr[item]._id});
+
+  rowNotesD.append(rowNotes);
+  rowD.append(rowC);
+  rowD.append(rowH4);
+  rowD.append(rowI);
+  rowD.append(rowP);
+  if(remArr[item].alarm) {
+    rowD.append(rowAlarm);
+  } else {
+    rowD.append(rowIAlarm);
+  }
+  rowD.append(rowTrash);
+  rowA.append(rowChbx);
+  rowA.append(rowD);
+  rowA.append(rowNotesD);
+  $(elementId).append(rowA);
+  }
+  loadCategoryColor();
 }
 
 // Should be called from pages which require edit.
@@ -455,36 +418,6 @@ function saveCategories(newCats) {
   loadSelectBox(2); 
 }
 
-function saveCategory(name, color){
-  readJson(catFile,(catArr)=> {
-   var newId = Object.keys(catArr).length + 1;
-    var item = {
-      id: newId,
-      name: name, 
-      color: color,
-      type: 'custom'
-    };
-
-    if(catArr==''){
-      catArr = []
-      catArr.push(item);
-    }
-    else
-      catArr.push(item)
-    
-    var prettyJSON = JSON.stringify(catArr, null, 4);
-    console.log(prettyJSON)
-
-    fs.writeFile(catFile, prettyJSON, function(err) {
-        if(err) {
-            return console.log(err);
-        }
-    }); 
-    loadSelectBox(1);
-    loadSelectBox(2);
-  }); 
-}
-
 // read json file
 function readJson(file,callBack){
   if (!fs.existsSync(file)) {
@@ -516,8 +449,9 @@ function loadAllCategories(callback){
       }
 
       var rowA = $('<a/>', {class : "list-group-item"})
-      var rowD = $('<div/>', { class : "col-sm-3 control-label topPadding" });
+      var rowD = $('<div/>', { class : "col-sm-8 control-label topPadding" });
       var rowH4 = $('<h5/>', {class : "list-group-item-heading catHeader pointerCursor", text : item.name, "id" : "n_"+item.id});
+      var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
       var pDiv = $('<div/>' , {class : "input-group colorpicker-component cPicker"});
       var pInp = $('<input/>', {class: "form-control hexValue" , "type" : "text", "value" : item.color, id : "i_"+item.id});
       var pSpan = $('<span/>', {class : "input-group-addon noDrag pointerCursor"});
@@ -527,6 +461,7 @@ function loadAllCategories(callback){
       pDiv.append(pInp);
       pDiv.append(pSpan);
       rowD.append(rowH4);
+      rowD.append(rowI);
       rowA.append(rowD);
       rowA.append(pDiv);
       $('#allCategories').append(rowA);

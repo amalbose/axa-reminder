@@ -2,7 +2,7 @@
     {
         "id": 1,
         "name": "Birthday",
-        "color": "#464ce3"
+        "color": "#b924ed"
     },
     {
         "id": 2,
@@ -12,12 +12,12 @@
     {
         "id": 3,
         "name": "Automobile",
-        "color": "#8bc34a"
+        "color": "#784ac3"
     },
     {
         "id": 4,
         "name": "Finance",
-        "color": "#8bc34a"
+        "color": "#2cddf5"
     },
     {
         "id": 5,

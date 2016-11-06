@@ -1,11 +1,9 @@
 // Database scripts
-var Nedb = require("./lib/nedb.min.js");
+var Nedb = require("nedb");
 
 var db = new Nedb({ filename: 'axa-reminder-data/datafile.db', autoload: true });
-var catdb = new Nedb({ filename: 'axa-reminder-data/catfile.db', autoload: true });
 
 // db.remove({}, { multi: true }, function (err, numRemoved) {});
-// catdb.remove({}, { multi: true }, function (err, numRemoved) {});
 
 // DATA
 
