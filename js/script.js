@@ -277,6 +277,10 @@ function updateCompResources(){
 
 function populateReminders(elementId, remArr) {
   $(elementId).empty();
+  var typ = "_a";
+  if(elementId.indexOf("all") !== -1) {
+    typ ="_c";
+  }
   for(item in remArr) {
   var rowC = $('<div/>', { class : "category label", text : remArr[item].category,"id" : "ca_"+remArr[item]._id  });
   var rowD = $('<div/>', { class : "itemCont" });
@@ -285,11 +289,11 @@ function populateReminders(elementId, remArr) {
     statusCls = "statusC";
   }
   var rowChbx = $('<span/>', { class : "glyphicon glyphicon-ok checkBoxImg " + statusCls , "id" : "c_"+remArr[item]._id });
-  var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseComp"+item, "aria-expanded" : "false", "aria-controls" : "collapseComp" })
+  var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseComp"+typ+item, "aria-expanded" : "false", "aria-controls" : "collapseComp" })
   var rowH4 = $('<h5/>', {class : "list-group-item-heading itemHeader pointerCursor", text : remArr[item].name, "id" : "n_"+remArr[item]._id});
   var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
   var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn });
-  var rowNotesD = $('<div/>', {class : "collapse", id : "collapseComp"+item });
+  var rowNotesD = $('<div/>', {class : "collapse", id : "collapseComp"+typ+item });
   var rowNotes = $('<div/>', { text : remArr[item].notes });
   var rowAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon"});
   var rowIAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon invisible"});
@@ -314,13 +318,10 @@ function populateReminders(elementId, remArr) {
   loadCategoryColor();
 }
 
-// Should be called from pages which require edit.
-function enableEditReminder(){
-  $(document).on("click",".itemHeader", function(){
-    var id = getId($(this).attr("id"));
-    openEditReminder(id);
-  });
-}
+$(document).on("click",".itemHeader", function(){
+  var id = getId($(this).attr("id"));
+  openEditReminder(id);
+});
 
 /*
 Returns the id value from complete token (<TKN>_<IDVAL>)
@@ -509,3 +510,8 @@ function loadCategoryColor(){
     $("#"+id).css('background-color', color);
   });
 }
+
+  $(document).on("click",".catHeader", function(){
+    var id = getId($(this).attr("id"));
+    alert(id);
+  });
