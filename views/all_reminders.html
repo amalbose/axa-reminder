@@ -12,8 +12,8 @@
   	updateAllResources();
   	updateCompResources();
 	$(document).on("click", ".itemToggle", function(){
-		$(".collapse").collapse('hide');
+    $(this).children(".collapse").collapse("hide");
+		// $(".collapse").collapse('hide');
 	});
-	enableEditReminder();
   </script>
 </div>
