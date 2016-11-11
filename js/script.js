@@ -148,12 +148,16 @@ $(document).on("click", "#updCategories", ()=>{
         return true;
       }
       var newColor = $("#i_"+item.id).val();
+      var newName = $("#n_"+item.id).text();
       var newCat = {}
       // update catlist
       categoriesList[newCat.name] = newColor;
-
+      
       newCat.id = item.id;
-      newCat.name = item.name;
+      if(item.name != newName) {
+        updateDBCategory(item.name, newName);
+      }
+      newCat.name = newName;
       newCat.color = newColor;
       newCats[item.id - 1] = newCat;
     });
@@ -511,7 +515,30 @@ function loadCategoryColor(){
   });
 }
 
-  $(document).on("click",".catHeader", function(){
-    var id = getId($(this).attr("id"));
-    alert(id);
+$(document).on("click",".catHeader", function(){
+  var id = $(this).attr("id");
+  var input = $('<input />', {
+      'type': 'text',
+      'name': id,
+      'class': 'catHeaderInp',
+      'value': $(this).html()
   });
+  $(this).parent().prepend(input);
+  $(this).remove();
+  input.focus();
+});
+
+$(document).on('blur', '.catHeaderInp', function () {
+    var h5 = $('<h5 />', {
+      'id': $(this).attr("name"),
+      'class': 'list-group-item-heading catHeader pointerCursor',
+      'text': $(this).val()
+    });
+    $(this).parent().prepend(h5);
+    $(this).remove();
+})
+
+// replacing all old category values in DB to new value.
+function updateDBCategory(oldVal, newVal){
+  db.updateCategory(oldVal, newVal);
+}

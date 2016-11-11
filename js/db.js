@@ -55,3 +55,11 @@ exports.updateReminder = function(idVal, data, callback) {
 	  callback(numReplaced);
 	});
 }
+
+
+exports.updateCategory = function(oldVal, newVal) {
+	db.update({ category: oldVal }, { $set: { category: newVal } }, { multi: true }, function (err, numReplaced) {
+	if(err)
+		alert(err)
+	});
+}
