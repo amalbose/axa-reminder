@@ -218,3 +218,11 @@ ul.nav.nav-tabs li>a {
   clear: both;
   padding-top: 20px;
 }
+
+.catTrashIcon {
+    position: relative;
+    padding: 8px;
+    float: right;
+    top: -2px;
+    right: -8px;
+}

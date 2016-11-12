@@ -2,12 +2,12 @@
     {
         "id": 1,
         "name": "Birthday",
-        "color": "#16ed86"
+        "color": "#fc5f55"
     },
     {
         "id": 2,
         "name": "Anniversary",
-        "color": "#7a0000"
+        "color": "#2beb27"
     },
     {
         "id": 3,
@@ -18,20 +18,5 @@
         "id": 4,
         "name": "Finance",
         "color": "#2cddf5"
-    },
-    {
-        "id": 5,
-        "name": "Other",
-        "color": "#ff3344"
-    },
-    {
-        "id": 6,
-        "name": "Update",
-        "color": "#de1010"
-    },
-    {
-        "id": 7,
-        "name": "New Categorys",
-        "color": "#8bc34a"
     }
 ]

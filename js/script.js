@@ -1,6 +1,8 @@
 var fs = require('fs');
+
 var db = require("./js/db.js");
 var cron = require("./js/cron.js");
+var utils = require("./js/utils.js");
 
 var cJobs = {};
 var catFile = 'data/categories.json'
@@ -150,6 +152,7 @@ $(document).on("click", "#updCategories", ()=>{
     
     obj = JSON.parse(data);
     var newCats = [];
+    var indx = 0;
     // update options
     $.each(obj, function (index, item) {
       if(item.name == ""){
@@ -167,7 +170,7 @@ $(document).on("click", "#updCategories", ()=>{
       }
       newCat.name = newName;
       newCat.color = newColor;
-      newCats[item.id - 1] = newCat;
+      newCats[indx++] = newCat;
     });
     saveCategories(newCats);
   });
@@ -193,6 +196,7 @@ function loadAlertSwitch(index){
 function loadSelectBox(index){
     var obj;
     var dropDown = $('#categorySelect'+index).empty().html(' ');
+    dropDown.append($('<option>', { value: 0, text : "" }));
     fs.readFile(catFile, 'utf8', function (err, data) {
       if (err)
        throw err;
@@ -294,38 +298,40 @@ function populateReminders(elementId, remArr) {
     typ ="_c";
   }
   for(item in remArr) {
-  var rowC = $('<div/>', { class : "category label", text : remArr[item].category,"id" : "ca_"+remArr[item]._id  });
-  var rowD = $('<div/>', { class : "itemCont" });
-  var statusCls = "statusI";
-  if(remArr[item].status) {
-    statusCls = "statusC";
-  }
-  var rowChbx = $('<span/>', { class : "glyphicon glyphicon-ok checkBoxImg " + statusCls , "id" : "c_"+remArr[item]._id });
-  var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseComp"+typ+item, "aria-expanded" : "false", "aria-controls" : "collapseComp" })
-  var rowH4 = $('<h5/>', {class : "list-group-item-heading itemHeader pointerCursor", text : remArr[item].name, "id" : "n_"+remArr[item]._id});
-  var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
-  var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn });
-  var rowNotesD = $('<div/>', {class : "collapse", id : "collapseComp"+typ+item });
-  var rowNotes = $('<div/>', { text : remArr[item].notes });
-  var rowAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon"});
-  var rowIAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon invisible"});
-  var rowTrash = $("<span/>", {class : "glyphicon glyphicon-trash trashIcon pointerCursor", "id" : "t_"+remArr[item]._id});
+    if(item=="removeValue")
+      continue;
+    var rowC = $('<div/>', { class : "category label", text : remArr[item].category,"id" : "ca_"+remArr[item]._id  });
+    var rowD = $('<div/>', { class : "itemCont" });
+    var statusCls = "statusI";
+    if(remArr[item].status) {
+      statusCls = "statusC";
+    }
+    var rowChbx = $('<span/>', { class : "glyphicon glyphicon-ok checkBoxImg " + statusCls , "id" : "c_"+remArr[item]._id });
+    var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseComp"+typ+item, "aria-expanded" : "false", "aria-controls" : "collapseComp" })
+    var rowH4 = $('<h5/>', {class : "list-group-item-heading itemHeader pointerCursor", text : remArr[item].name, "id" : "n_"+remArr[item]._id});
+    var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
+    var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn });
+    var rowNotesD = $('<div/>', {class : "collapse", id : "collapseComp"+typ+item });
+    var rowNotes = $('<div/>', { text : remArr[item].notes });
+    var rowAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon"});
+    var rowIAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon invisible"});
+    var rowTrash = $("<span/>", {class : "glyphicon glyphicon-trash trashIcon pointerCursor", "id" : "t_"+remArr[item]._id});
 
-  rowNotesD.append(rowNotes);
-  rowD.append(rowC);
-  rowD.append(rowH4);
-  rowD.append(rowI);
-  rowD.append(rowP);
-  if(remArr[item].alarm) {
-    rowD.append(rowAlarm);
-  } else {
-    rowD.append(rowIAlarm);
-  }
-  rowD.append(rowTrash);
-  rowA.append(rowChbx);
-  rowA.append(rowD);
-  rowA.append(rowNotesD);
-  $(elementId).append(rowA);
+    rowNotesD.append(rowNotes);
+    rowD.append(rowC);
+    rowD.append(rowH4);
+    rowD.append(rowI);
+    rowD.append(rowP);
+    if(remArr[item].alarm) {
+      rowD.append(rowAlarm);
+    } else {
+      rowD.append(rowIAlarm);
+    }
+    rowD.append(rowTrash);
+    rowA.append(rowChbx);
+    rowA.append(rowD);
+    rowA.append(rowNotesD);
+    $(elementId).append(rowA);
   }
   loadCategoryColor();
 }
@@ -484,17 +490,19 @@ function loadAllCategories(callback){
       }
 
       var rowA = $('<a/>', {class : "list-group-item"})
-      var rowD = $('<div/>', { class : "col-sm-8 control-label topPadding" });
+      var rowD = $('<div/>', { class : "col-sm-7 control-label topPadding" });
       var rowH4 = $('<h5/>', {class : "list-group-item-heading catHeader pointerCursor", text : item.name, "id" : "n_"+item.id});
       var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
       var pDiv = $('<div/>' , {class : "input-group colorpicker-component cPicker"});
       var pInp = $('<input/>', {class: "form-control hexValue" , "type" : "text", "value" : item.color, id : "i_"+item.id});
       var pSpan = $('<span/>', {class : "input-group-addon noDrag pointerCursor"});
       var pI = $('<i/>', { class : "noDrag"});
+      var rowTrash = $("<span/>", {class : "glyphicon glyphicon-trash catTrashIcon pointerCursor", "id" : "t_"+item.id , "cname" : item.name});
 
       pSpan.append(pI);
       pDiv.append(pInp);
       pDiv.append(pSpan);
+      pDiv.append(rowTrash);
       rowD.append(rowH4);
       rowD.append(rowI);
       rowA.append(rowD);
@@ -598,3 +606,28 @@ $(document).on("click", "#saveCat", function() {
   addCategory(newCat, newColor);
   $('#newCategoryModal').modal('hide');
 });
+
+//delete category event
+$(document).on("click",".catTrashIcon", function(){
+  var id = getId($(this).attr("id"));
+  var name = $(this).attr("cname");
+  $("#catModelID").val(id);
+  $("#catModelName").val(name);
+  $('#catConfirmationDialog').modal({});
+});
+
+$(document).on("click","#delCatConfirmation", function(){
+  var id = $("#catModelID").val();
+  var name = $("#catModelName").val();
+  deleteCategory(id, name);
+});
+
+//delete category
+function deleteCategory(idVal, name){
+  readJson(catFile,(catArr)=> {
+    catArr.removeValue("id", parseInt(idVal));
+    updateDBCategory(name, "");
+    saveCategories(catArr);
+    loadAllCategories(loadColorPicker);
+  }); 
+}
