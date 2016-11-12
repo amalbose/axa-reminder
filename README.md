@@ -10,10 +10,4 @@ git clone https://github.com/amalbose/axa-reminder.git
 ```
 
 * Start application
-```
-npm start
-```
-or
-```
-./run
-```
+`npm start` or `./run`
