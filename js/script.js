@@ -17,7 +17,9 @@ function loadViews(){
   $("#newReminderModal").load("views/new.html"); 
   $("#editReminderModal").load("views/edit.html"); 
   $("#alertNotify").load("views/alertNotify.html"); 
-  $('#containerDiv').load("views/upcoming.html")
+  $('#containerDiv').load("views/upcoming.html");
+  $('#newCategoryModalDiv').load("views/newCat.html");
+  resetNewBtn();
 }
 
 // EventsQ
@@ -27,7 +29,13 @@ $(document).on("click", ".sidebarItem", function(){
     $(".sidebarItem").removeClass("selected");
     $("#"+this.id).addClass("selected");
     $('#containerDiv').load("views/"+this.id+".html");
+    resetNewBtn();
 });
+
+function resetNewBtn(){
+  $("#newCatBtn").hide();
+  $("#floatingIcon").show();
+}
 
 // Close windows
 $(document).on("click","#closeIcon", function(){
@@ -423,6 +431,28 @@ function saveCategories(newCats) {
   loadSelectBox(2); 
 }
 
+function addCategory(name, color){
+  readJson(catFile,(catArr)=> {
+   var newId = Object.keys(catArr).length + 1;
+    var item = {
+      id: newId,
+      name: name, 
+      color: color
+    };
+
+    if(catArr==''){
+      catArr = []
+      catArr.push(item);
+    }
+    else
+      catArr.push(item)
+    
+    saveCategories(catArr);
+    loadAllCategories(loadColorPicker);
+  }); 
+}
+
+
 // read json file
 function readJson(file,callBack){
   if (!fs.existsSync(file)) {
@@ -542,3 +572,29 @@ $(document).on('blur', '.catHeaderInp', function () {
 function updateDBCategory(oldVal, newVal){
   db.updateCategory(oldVal, newVal);
 }
+
+// let myNotification = new Notification('Title', {
+//   body: 'Lorem Ipsum Dolor Sit Amet'
+// })
+
+// myNotification.onclick = () => {
+//   console.log('Notification clicked')
+// }
+
+function enableAddCategory(){
+  $(document).on("click","#addCatBtn", function(){
+    $('#newCategoryModal').modal({});
+  });  
+}
+
+function changeNewBtn(){
+  $("#newCatBtn").show();
+  $("#floatingIcon").hide();
+}
+
+$(document).on("click", "#saveCat", function() {
+  var newCat = $("#newCatName").val();
+  var newColor = "#8BC34A";
+  addCategory(newCat, newColor);
+  $('#newCategoryModal').modal('hide');
+});

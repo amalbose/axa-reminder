@@ -23,6 +23,7 @@ i,
 .date,
 .bootstrap-datetimepicker-widget,
 #newReminderModal,
+#newCategoryModal,
 #alertNotify,
 .modal-trigger,
 .sidebar-nav li:not(.sidebar-brand),
@@ -49,7 +50,7 @@ input, button, textarea,.sidebar_brand, :focus {
     outline: none;
 }
 
-#floatingIcon {
+#floatingIcon, #newCatBtn {
 	  bottom: 25px;
     right: 25px;
     position: fixed;

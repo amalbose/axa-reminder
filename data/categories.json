@@ -2,7 +2,7 @@
     {
         "id": 1,
         "name": "Birthday",
-        "color": "#ffbe18"
+        "color": "#16ed86"
     },
     {
         "id": 2,
@@ -28,5 +28,10 @@
         "id": 6,
         "name": "Update",
         "color": "#de1010"
+    },
+    {
+        "id": 7,
+        "name": "New Categorys",
+        "color": "#8bc34a"
     }
 ]
