@@ -7,6 +7,8 @@
 * Alert
 * Custom alert sound
 * Clickable alert and category
+* Overview counter on tab
+* Change date format to dd mm yyyy
 
 ### UI
 * Better header

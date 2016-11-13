@@ -1,17 +1,20 @@
-<h1>UpComing</h1>
-		    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla pharetra fermentum.
-		    Vestibulum neque erat, bibendum ac sagittis et, pulvinar at urna. Donec sit amet ipsum quis ve    height: 100%;
-lit cursus ultrices elementum id lacus.
-		    Sed vel massa vitae turpis viverra adipiscing at nec odio. Quisque ac ligula metus. Vestibulum suscipit elit eget lacus pellentesque tempus. Suspendisse potenti.    
-<br/>
-<a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-  Link with href
-</a>
-<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-  Button with data-target
-</button>
-<div class="collapse" id="collapseExample">
-  <div class="well">
-    ...
-  </div>
+<h2>Up Coming</h2>
+<div class="tableContainer">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#upRemList" aria-controls="allRemList" role="tab" data-toggle="tab">UpComing</a></li>
+        <li role="presentation"><a href="#overRemList" aria-controls="compRemList" role="tab" data-toggle="tab">Overdue</a></li>
+    </ul>
+    <div class="tab-content">
+        <div class="list-group tab-pane active" id="upRemList">
+            <div class="list-group tab-pane active" id="todayRemList"></div>
+            <div class="list-group tab-pane active" id="weekRemList"></div>
+        </div>
+        <div class="list-group tab-pane" id="overRemList" ></div>
+    </div>
+  <script>
+    updateUpComingResources();
+    $(document).on("click", ".itemToggle", function(){
+        $(this).children(".collapse").collapse("hide");
+    });
+  </script>
 </div>

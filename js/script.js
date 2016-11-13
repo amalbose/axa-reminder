@@ -77,6 +77,7 @@ $(document).on("click","#updateBtn", function(event){
   obj.name = $("#editReminderModal #task_name").val();
   obj.category  = $("#editReminderModal #categorySelect2").val();
   obj.remindOn = $("#editReminderModal #datetimepicker").val();
+  obj.remindOnT = new Date($("#editReminderModal #datetimepicker").val()).getTime();
   obj.notes = $("#editReminderModal #notes").val();
   obj.alarm = $("#editReminderModal #alertOn2").prop('checked');
   db.updateReminder(id, obj, (noUpdated)=> {
@@ -179,6 +180,7 @@ $(document).on("click", "#updCategories", ()=>{
 function updateReminders(){
   updateAllResources();
   updateCompResources();
+  updateUpComingResources();
 }
 
 function reloadCategories(){
@@ -630,4 +632,107 @@ function deleteCategory(idVal, name){
     saveCategories(catArr);
     loadAllCategories(loadColorPicker);
   }); 
+}
+
+function updateUpComingResources(){
+
+  $("#todayRemList").empty();
+  $("#weekRemList").empty();
+  // today
+  // check if present for today
+  var today = utils.getCurrentDate();
+
+  db.getActiveForDate(new RegExp(today), (docs)=>{
+    if(Object.size(docs) > 0) {
+      populateUpComReminders("#todayRemList",docs )
+      $("#todayRemList").prepend("<li class='list-group-item upHeader'>Today</li>");
+    } else {
+      $("#todayRemList").prepend("<li class='list-group-item upHeader'>No Reminders for today</li>");
+    }
+  });
+
+  // week
+  var weekRegex = getNextWeeksRegexp();
+  db.getActiveForDate(new RegExp(weekRegex), (docs)=>{
+    if(Object.size(docs) > 0) {
+      populateUpComReminders("#weekRemList",docs )
+      $("#weekRemList").prepend("<li class='list-group-item upHeader'>This Week</li>");
+    } else {
+      $("#weekRemList").prepend("<li class='list-group-item upHeader'>No Reminders for this week</li>");
+    }
+  });
+
+  // var todayList = 
+    // if yes
+      // add container, call populate
+    // if no
+      // empty header
+  // check if present for this week
+    // if yes
+      // add container
+    // if not
+      // add empty container
+  // overdue
+}
+
+function getNextWeeksRegexp(){
+  var curDay = new Date();
+  var nextDay = new Date();
+  var formattedDate;
+  var regexpStr = "";
+  for(var i = 0; i < 6; i ++) {
+    nextDay.setDate(curDay.getDate() + 1);
+    formattedDate = utils.getFormattedDate(nextDay);
+    regexpStr += formattedDate;
+    if(i!=5){
+      regexpStr += "|";
+    }
+    curDay = nextDay;
+  }
+  console.log(regexpStr);
+  return regexpStr;
+}
+
+function populateUpComReminders(elementId, remArr) {
+  var typ = "_a";
+  if(elementId.indexOf("all") !== -1) {
+    typ ="_c";
+  }
+  for(item in remArr) {
+    if(item=="removeValue")
+      continue;
+    var rowC = $('<div/>', { class : "category label", text : remArr[item].category,"id" : "ca_"+remArr[item]._id  });
+    var rowD = $('<div/>', { class : "itemCont" });
+    var statusCls = "statusI";
+    if(remArr[item].status) {
+      statusCls = "statusC";
+    }
+    var rowChbx = $('<span/>', { class : "glyphicon glyphicon-ok checkBoxImg " + statusCls , "id" : "c_"+remArr[item]._id });
+    var rowA = $('<a/>', {class : "list-group-item itemToggle pointerCursor", "data-toggle" : "collapse", "data-target" : "#collapseComp"+typ+item, "aria-expanded" : "false", "aria-controls" : "collapseComp" })
+    var rowH4 = $('<h5/>', {class : "list-group-item-heading itemHeader pointerCursor", text : remArr[item].name, "id" : "n_"+remArr[item]._id});
+    var rowI = $('<span/>', {class : "glyphicon glyphicon-edit pointerCursor editBtn"});
+    var rowP = $('<p/>', {class : "list-group-item-text", text : remArr[item].remindOn });
+    var rowNotesD = $('<div/>', {class : "collapse", id : "collapseComp"+typ+item });
+    var rowNotes = $('<div/>', { text : remArr[item].notes });
+    var rowAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon"});
+    var rowIAlarm = $("<span/>", {class : "glyphicon glyphicon-bell alarmIcon invisible"});
+    var rowTrash = $("<span/>", {class : "glyphicon glyphicon-trash trashIcon pointerCursor", "id" : "t_"+remArr[item]._id});
+
+    rowNotesD.append(rowNotes);
+    rowD.append(rowC);
+    rowD.append(rowH4);
+    rowD.append(rowI);
+    rowD.append(rowP);
+    if(remArr[item].alarm) {
+      rowD.append(rowAlarm);
+    } else {
+      rowD.append(rowIAlarm);
+    }
+    rowD.append(rowTrash);
+    rowA.append(rowChbx);
+    rowA.append(rowD);
+    rowA.append(rowNotesD);
+    $(elementId).append(rowA);
+  }
+  loadCategoryColor();
 }

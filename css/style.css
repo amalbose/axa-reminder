@@ -226,3 +226,13 @@ ul.nav.nav-tabs li>a {
     top: -2px;
     right: -8px;
 }
+
+.upHeader{
+    background-color: #efefec;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#todayRemList {
+  margin-bottom: 0px !important;
+}

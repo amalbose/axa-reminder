@@ -56,10 +56,17 @@ exports.updateReminder = function(idVal, data, callback) {
 	});
 }
 
-
 exports.updateCategory = function(oldVal, newVal) {
 	db.update({ category: oldVal }, { $set: { category: newVal } }, { multi: true }, function (err, numReplaced) {
 	if(err)
 		alert(err)
 	});
 }
+
+exports.getActiveForDate = function(date, callback){
+	db.find({ remindOn: { $regex: date } }, function (err, docs) {
+	  if(err)
+		console.log(err)
+	  callback(docs);
+	});
+};
