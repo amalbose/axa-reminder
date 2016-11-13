@@ -64,7 +64,7 @@ exports.updateCategory = function(oldVal, newVal) {
 }
 
 exports.getActiveForCurDate = function(dateStr,date, callback){
-	db.find({ $and : [{remindOn: { $regex: dateStr }}, {remindOnT: { $gt: date } }] }, function (err, docs) {
+	db.find({ $and : [{remindOn: { $regex: dateStr }}, {remindOnT: { $gt: date } }, {status: false }] }, function (err, docs) {
 	  if(err)
 		console.log(err)
 	  callback(docs);
@@ -83,7 +83,6 @@ exports.getPreviousReminders = function(date, callback) {
 	db.find({ $and : [{status: false }, {remindOnT: { $lt: date } }]}, function (err, docs) {
 	  if(err)
 		console.log(err)
-	  console.log(docs)
 	  callback(docs);
 	})
 }
