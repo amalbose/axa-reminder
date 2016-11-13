@@ -9,6 +9,7 @@
   "author": "amalbose",
   "license": "ISC",
   "dependencies": {
+    "auto-launch": "^5.0.1",
     "cron": "^1.1.1",
     "electron": "^1.4.0",
     "jquery": "^3.1.0",

@@ -1,7 +1,6 @@
 ## Upcoming features
 * Settings
 * Help section
-* Start at startup
 * Alert
 * Custom alert sound
 * Clickable alert and category

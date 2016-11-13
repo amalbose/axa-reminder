@@ -1,4 +1,5 @@
 const electron = require('electron')
+var AutoLaunch = require('auto-launch');
 
 const {app, BrowserWindow, Menu, Tray, ipcMain} = electron
 
@@ -49,3 +50,24 @@ function quitApp(){
 
 const menu = Menu.buildFromTemplate(mTemplate.template)
 Menu.setApplicationMenu(menu)
+
+
+// Auto launch
+ 
+var axareminderLauncher = new AutoLaunch({
+    name: 'AxaReminder',
+    isHidden: true,
+});
+ 
+axareminderLauncher.enable(); 
+ 
+axareminderLauncher.isEnabled()
+.then(function(isEnabled){
+    if(isEnabled){
+        return;
+    }
+    axareminderLauncher.enable();
+})
+.catch(function(err){
+    // handle error 
+});
