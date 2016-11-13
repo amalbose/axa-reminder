@@ -1,4 +1,5 @@
 var fs = require('fs');
+const {ipcRenderer} = require('electron')
 
 var db = require("./js/db.js");
 var cron = require("./js/cron.js");
@@ -41,7 +42,7 @@ function resetNewBtn(){
 
 // Close windows
 $(document).on("click","#closeIcon", function(){
-  window.close();
+  ipcRenderer.send('toggleApplication', 'ping')
 });
 
 // Cleanup error on datepicker
@@ -668,17 +669,6 @@ function updateUpComingResources(){
     }
   });
 
-  // var todayList = 
-    // if yes
-      // add container, call populate
-    // if no
-      // empty header
-  // check if present for this week
-    // if yes
-      // add container
-    // if not
-      // add empty container
-  // overdue
 }
 
 function getNextWeeksRegexp(){

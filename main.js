@@ -1,11 +1,15 @@
 const electron = require('electron')
 
-const {app, BrowserWindow, Menu, Tray} = electron
+const {app, BrowserWindow, Menu, Tray, ipcMain} = electron
 
 const mTemplate = require('./js/menuTemplate.js')
 
+let tray = null;
+let win = null;
+let contextMenu = null;
+
 app.on('ready', () => {
-	let win = new BrowserWindow({
+	win = new BrowserWindow({
 		width : 800,
 		height: 600,
 		frame : false
@@ -14,20 +18,34 @@ app.on('ready', () => {
 	win.loadURL(`file://${__dirname}/main.html`)
 	win.webContents.openDevTools()
 	win.on('close', function () { win = null })
+
+    tray = new Tray('assets/icon.png')
+    contextMenu = Menu.buildFromTemplate([
+        {label: 'Show/Hide Window', click() { toggleApplication(); }},
+        {label: 'Quit', click() { quitApp(); }}
+    ])
+    tray.setContextMenu(contextMenu)
+
+    win.on('show', () => {
+      tray.setHighlightMode('always')
+    })
+    win.on('hide', () => {
+      tray.setHighlightMode('never')
+    })
+
 })
+
+ipcMain.on('toggleApplication', (event, arg) => {
+  toggleApplication();
+});
+
+function toggleApplication() {
+  win.isVisible() ? win.hide() : win.show()
+}
+
+function quitApp(){
+    app.quit();
+}
 
 const menu = Menu.buildFromTemplate(mTemplate.template)
 Menu.setApplicationMenu(menu)
-
-// let tray = null
-// app.on('ready', () => {
-//   tray = new Tray('icon.png')
-//   const contextMenu = Menu.buildFromTemplate([
-//     {label: 'Item1', type: 'radio'},
-//     {label: 'Item2', type: 'radio'},
-//     {label: 'Item3', type: 'radio', checked: true},
-//     {label: 'Item4', type: 'radio'}
-//   ])
-//   tray.setToolTip('This is my application.')
-//   tray.setContextMenu(contextMenu)
-// })
