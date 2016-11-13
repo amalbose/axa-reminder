@@ -22,8 +22,8 @@ app.on('ready', () => {
 
     tray = new Tray('assets/icon.png')
     contextMenu = Menu.buildFromTemplate([
-        {label: 'Show/Hide Window', click() { toggleApplication(); }},
-        {label: 'Quit', click() { quitApp(); }}
+        {label: 'Show/Hide App', click() { toggleApplication(); }},
+        {label: 'Exit', click() { quitApp(); }}
     ])
     tray.setContextMenu(contextMenu)
 
