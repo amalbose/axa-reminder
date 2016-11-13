@@ -1,7 +1,6 @@
 ## Upcoming features
 * Settings
 * Help section
-* Tray entry
 * Start at startup
 * Alert
 * Custom alert sound
