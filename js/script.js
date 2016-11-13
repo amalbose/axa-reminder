@@ -420,8 +420,7 @@ function setCompleted(idVal, completed) {
   obj.status = completed;
     db.updateReminder(idVal, obj, (noUpdated)=> {
     displayUpdatedAlert();
-    updateAllResources();
-    updateCompResources();
+    updateReminders();
   });
 }
 

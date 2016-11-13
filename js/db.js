@@ -72,7 +72,7 @@ exports.getActiveForCurDate = function(dateStr,date, callback){
 };
 
 exports.getActiveForDate = function(date, callback){
-	db.find({ remindOn: { $regex: date } }, function (err, docs) {
+	db.find({ $and : [{remindOn: { $regex: date }}, {status: false }] }, function (err, docs) {
 	  if(err)
 		console.log(err)
 	  callback(docs);
@@ -80,7 +80,7 @@ exports.getActiveForDate = function(date, callback){
 };
 
 exports.getPreviousReminders = function(date, callback) {
-	db.find({ remindOnT: { $lt: date }}, function (err, docs) {
+	db.find({ $and : [{status: false }, {remindOnT: { $lt: date } }]}, function (err, docs) {
 	  if(err)
 		console.log(err)
 	  console.log(docs)
