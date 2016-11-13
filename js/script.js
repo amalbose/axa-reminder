@@ -77,7 +77,7 @@ $(document).on("click","#updateBtn", function(event){
   obj.name = $("#editReminderModal #task_name").val();
   obj.category  = $("#editReminderModal #categorySelect2").val();
   obj.remindOn = $("#editReminderModal #datetimepicker").val();
-  obj.remindOnT = new Date($("#editReminderModal #datetimepicker").val()).getTime();
+  obj.remindOnT = utils.getDate($("#editReminderModal #datetimepicker").val());
   obj.notes = $("#editReminderModal #notes").val();
   obj.alarm = $("#editReminderModal #alertOn2").prop('checked');
   db.updateReminder(id, obj, (noUpdated)=> {
@@ -427,8 +427,6 @@ function setCompleted(idVal, completed) {
 
 function saveCategories(newCats) {
   var prettyJSON = JSON.stringify(newCats, null, 4);
-  console.log(prettyJSON)
-
   fs.writeFile(catFile, prettyJSON, function(err) {
       if(err) {
           return console.log(err);
@@ -521,7 +519,6 @@ function loadColorPicker() {
 
 function getCategoryColors(){
   if(Object.size(categoriesList) < 1) {
-    console.log("Loading categories");
     loadCategoriesForFile();
   }
   return categoriesList;
@@ -638,11 +635,13 @@ function updateUpComingResources(){
 
   $("#todayRemList").empty();
   $("#weekRemList").empty();
+  $("#overRemList").empty();
+
   // today
   // check if present for today
   var today = utils.getCurrentDate();
 
-  db.getActiveForDate(new RegExp(today), (docs)=>{
+  db.getActiveForCurDate(new RegExp(today),new Date(), (docs)=>{
     if(Object.size(docs) > 0) {
       populateUpComReminders("#todayRemList",docs )
       $("#todayRemList").prepend("<li class='list-group-item upHeader'>Today</li>");
@@ -659,6 +658,14 @@ function updateUpComingResources(){
       $("#weekRemList").prepend("<li class='list-group-item upHeader'>This Week</li>");
     } else {
       $("#weekRemList").prepend("<li class='list-group-item upHeader'>No Reminders for this week</li>");
+    }
+  });
+
+  db.getPreviousReminders(new Date(), (docs)=>{
+    if(Object.size(docs) > 0) {
+      populateUpComReminders("#overRemList",docs )
+    } else {
+      $("#overRemList").prepend("<li class='list-group-item upHeader'>No Overdue Reminders</li>");
     }
   });
 
@@ -689,7 +696,6 @@ function getNextWeeksRegexp(){
     }
     curDay = nextDay;
   }
-  console.log(regexpStr);
   return regexpStr;
 }
 

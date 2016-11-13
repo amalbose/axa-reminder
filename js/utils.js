@@ -1,3 +1,5 @@
+const DATE_FORMAT = 'Do MMM YYYY';
+const DATETIME_FORMAT = 'Do MMM YYYY LT';
 
 // remove entry from array
 Array.prototype.removeValue = function(name, value){
@@ -10,13 +12,14 @@ Array.prototype.removeValue = function(name, value){
 
 exports.getCurrentDate = ()=> {
     var today = new Date();
-    return moment(today).format('Do MMM YYYY');
+    return moment(today).format(DATE_FORMAT);
 }
 
 exports.getFormattedDate = (date)=> {
-    return moment(date).format('Do MMM YYYY');
+    return moment(date).format(DATE_FORMAT);
 }
 
-exports.getMom=()=>{
-    console.log(moment().format('Do MMM YYYY LT'));
+exports.getDate = (strDate)=>{
+    var date = moment(strDate, DATETIME_FORMAT);
+    return date.toDate();
 }
