@@ -2,7 +2,7 @@
   "name": "axa-reminder",
   "version": "1.0.0",
   "description": "A reminder app using Electron",
-  "homepage" : "https://github.com/amalbose/axa-reminder",
+  "homepage": "https://github.com/amalbose/axa-reminder",
   "main": "main.js",
   "scripts": {
     "start": "electron main.js"

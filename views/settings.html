@@ -1,2 +1,33 @@
-<h1>Settings</h1>
-			    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla fringilla pharetra fermentum.  
+<h3>Settings</h3>
+<div class="tableContainer paddingTop10" id="settingsDiv">
+    <form>  
+      <div class="col-sm-12">
+        <label class="control-label required paddingTop8">Quit App on pressing Close button</label>
+        <div class="input-group inlineRight noDrag">
+            <input type="checkbox" id="quitCB" checked> 
+        </div>
+      </div>
+      <div class="col-sm-12 paddingTop8">
+        <label class="control-label required paddingTop8">Launch App at Start Up</label>
+        <div class="input-group inlineRight noDrag">
+            <input type="checkbox" id="startCB" checked> 
+        </div>
+      </div>
+    </form>
+</div>
+<script>
+    $("#quitCB").bootstrapSwitch();
+    $("#startCB").bootstrapSwitch();
+
+    $('#quitCB').on('switchChange.bootstrapSwitch', function(event, state) {
+        updateSettings("QUIT_APP_ON_CLOSE",state);
+    });
+
+    $('#startCB').on('switchChange.bootstrapSwitch', function(event, state) {
+        updateSettings("LAUNCH_ON_STARTUP",state);
+    });
+
+    $("#quitCB").bootstrapSwitch('state', getSettingValue("QUIT_APP_ON_CLOSE"));
+    $("#startCB").bootstrapSwitch('state', getSettingValue("LAUNCH_ON_STARTUP"));
+
+</script>

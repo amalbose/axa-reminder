@@ -1,11 +1,10 @@
 ## Upcoming features
-* Settings
+* Settings - quit on close button, auto start, date format, 
 * Help section
 * Alert
 * Custom alert sound
 * Clickable alert and category
 * Overview counter on tab
-* Customize date format
 
 ### UI
 * Better header

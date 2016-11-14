@@ -6,12 +6,17 @@ var cron = require("./js/cron.js");
 var utils = require("./js/utils.js");
 
 var cJobs = {};
+var settings = {};
+
 var catFile = 'data/categories.json'
+var settingsFile = 'data/settings.json'
+
 var categoriesList = {};
 
 // on load
 $(document).ready(function(){
     categoriesList = getCategoryColors();
+    settings = loadSettings();
     loadViews();
     processCronJobs();
 });
@@ -42,7 +47,11 @@ function resetNewBtn(){
 
 // Close windows
 $(document).on("click","#closeIcon", function(){
-  ipcRenderer.send('toggleApplication', 'ping')
+  if(settings["QUIT_APP_ON_CLOSE"]) {
+    window.close();
+  } else {
+    ipcRenderer.send('toggleApplication', 'ping');
+  }
 });
 
 // Cleanup error on datepicker
@@ -730,4 +739,27 @@ function populateUpComReminders(elementId, remArr) {
     $(elementId).append(rowA);
   }
   loadCategoryColor();
+}
+
+function loadSettings() {
+  readJson(settingsFile,(sStr)=> {
+    settings = {};
+    settings["QUIT_APP_ON_CLOSE"] = sStr.QUIT_APP_ON_CLOSE;
+    settings["LAUNCH_ON_STARTUP"] = sStr.LAUNCH_ON_STARTUP;
+    return settings;
+  }); 
+}
+
+function updateSettings(key, value) {
+  settings[key] = value;
+  var prettyJSON = JSON.stringify(settings, null, 4);
+  fs.writeFile(settingsFile, prettyJSON, function(err) {
+      if(err) {
+          return console.log(err);
+      }
+  });
+}
+
+function getSettingValue(key){
+  return settings[key];
 }

@@ -16,6 +16,7 @@ button,
 select,
 i,
 #allCategories,
+#settingsDiv,
 .colorpicker,
 .noDrag,
 .cPicker,
@@ -235,4 +236,17 @@ ul.nav.nav-tabs li>a {
 
 #todayRemList {
   margin-bottom: 0px !important;
+}
+
+.inlineRight{
+  display: inline-block;
+  float: right;
+}
+
+.paddingTop10{
+  padding-top: 10px;
+}
+
+.paddingTop8 {
+  padding-top: 8px;
 }
