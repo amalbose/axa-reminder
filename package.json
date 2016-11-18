@@ -19,5 +19,10 @@
   },
   "devDependencies": {
     "electron": "^1.4.1"
+  },
+  "homepage": "https://github.com/amalbose/axa-reminder",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:amalbose/axa-reminder.git"
   }
 }
