@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
+    <meta name="description" content="Axa Reminder is a reminder application">
+    <meta name="author" content="Amal Bose">
+
+    <title>Axa Reminder</title>
+
+    <link href="css/lib/bootstrap.min.css" rel="stylesheet">
+    <link href="css/lib/bootstrap-datetimepicker.css"  rel="stylesheet" >
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/lib/bootstrap-switch.min.css" rel="stylesheet">
+    <link href="css/lib/bootstrap-colorpicker.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/font-awesome/css/font-awesome.min.css">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#" id="title">
+                        Axa Reminder
+                    </a>
+                </li>
+                <li class="sidebarItem selected" id="upcoming">
+                    <a href="#">Up Coming</a>
+                </li>
+                <li class="sidebarItem" id="all_reminders">
+                    <a href="#">All Reminders</a>
+                </li>
+                <li class="sidebarItem" id="category">
+                    <a href="#">Categories</a>
+                </li>
+                <li class="sidebarItem" id="settings">
+                    <a href="#">Settings</a>
+                </li>
+                <li class="sidebarItem" id="help">
+                    <a href="#">Help</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="alert alert-success alert-dismissible displayNone alertDiv" id="savedAlert" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Saved!</strong> Reminder has been added to your list.
+            </div>
+            <div class="alert alert-success alert-dismissible displayNone alertDiv" id="updatedAlert" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Saved!</strong> Reminder has been updated.
+            </div>
+            <div class="alert alert-success alert-dismissible displayNone alertDiv" id="deleteAlert" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                Reminder has been removed from your list.
+            </div>
+            <div class="container-fluid" id="containerDiv"></div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+        <div  id="closeIcon" class="modal-trigger fa fa-close fa-2x" href="#newReminder"></div>
+        <div  id="floatingIcon" class="modal-trigger" href="#newReminder">
+            <a href="#" class="btn btn-default btn-circle" data-toggle="modal" data-target="#newReminderModal" ><i class="fa fa-plus fa-2x"></i></a>
+        </div>
+        <div  id="newCatBtn" class="modal-trigger">
+            <a href="#" class="btn btn-default btn-circle" data-toggle="modal" data-target="#newCategoryModal" ><i class="fa fa-plus fa-2x"></i></a>
+        </div>
+        <!-- Modals -->
+        <div id="newReminderModal" class="modal fade" role="dialog"></div>
+        <div id="editReminderModal" class="modal fade" role="dialog"></div>
+        <div id="alertNotify" class="modal fade bs-example-modal-sm" role="dialog" aria-labelledby="mySmallModalLabel"></div>
+        <!-- Alert -->
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="alert" id="confirmationDialog">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header smodal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Confirm Deletion</h4>
+                </div>
+                <div class="modal-body smodal-body">
+                    <p>Are you sure?</p>
+                </div>
+                <div class="modal-footer smodal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="delConfirmation">Delete</button>
+                    <input type="hidden" id="modelID" value=""/>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="alert" id="catConfirmationDialog">
+          <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header smodal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Confirm Category Deletion</h4>
+                </div>
+                <div class="modal-body smodal-body">
+                    <p>Are you sure?</p>
+                </div>
+                <div class="modal-footer smodal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="delCatConfirmation">Delete</button>
+                    <input type="hidden" id="catModelID" value=""/>
+                    <input type="hidden" id="catModelName" value=""/>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div id="newCategoryModalDiv"></div>
+
+    </div>
+    <!-- /#wrapper -->
+
+    <script>
+        window.$ = window.jQuery = require('jquery');
+    </script>
+
+    <script src="js/lib/moment.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/bootstrap-datetimepicker.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/lib/bootstrap-switch.min.js"></script>
+    <script src="js/lib/bootstrap-colorpicker.js"></script>
+
+</body>
+</html>

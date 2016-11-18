@@ -1,0 +1,18 @@
+<h1>All Reminders</h1>
+<div class="tableContainer" id="allReminders">
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#allRemList" aria-controls="allRemList" role="tab" data-toggle="tab">Active</a></li>
+    <li role="presentation"><a href="#compRemList" aria-controls="compRemList" role="tab" data-toggle="tab">Completed</a></li>
+  </ul>
+    <div class="tab-content">
+		<div class="list-group tab-pane active" id="allRemList" ></div>
+		<div class="list-group tab-pane" id="compRemList" ></div>
+	</div>
+  <script>
+  	updateAllResources();
+  	updateCompResources();
+	$(document).on("click", ".itemToggle", function(){
+    $(this).children(".collapse").collapse("hide");
+	});
+  </script>
+</div>

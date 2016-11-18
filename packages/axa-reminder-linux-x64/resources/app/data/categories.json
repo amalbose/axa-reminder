@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "name": "Birthday",
+        "color": "#fc5f55"
+    },
+    {
+        "id": 2,
+        "name": "Anniversary",
+        "color": "#2beb27"
+    },
+    {
+        "id": 3,
+        "name": "Automobile",
+        "color": "#784ac3"
+    },
+    {
+        "id": 4,
+        "name": "Finance",
+        "color": "#2cddf5"
+    }
+]
