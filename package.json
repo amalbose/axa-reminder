@@ -5,7 +5,9 @@
   "homepage": "https://github.com/amalbose/axa-reminder",
   "main": "main.js",
   "scripts": {
-    "start": "electron main.js"
+    "start": "electron main.js",
+    "package:win" : "electron-packager ./ axa-reminder --out=packages --platform=win32 --arch=x64 --overwrite",
+    "package:linux" : "electron-packager ./ axa-reminder --out=packages --platform=linux --arch=x64 --overwrite"
   },
   "author": "amalbose",
   "license": "ISC",
@@ -14,5 +16,8 @@
     "cron": "^1.1.1",
     "jquery": "^3.1.0",
     "nedb": "^1.8.0"
+  },
+  "devDependencies": {
+    "electron": "^1.4.1"
   }
 }

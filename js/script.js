@@ -8,8 +8,8 @@ var utils = require("./js/utils.js");
 var cJobs = {};
 var settings = {};
 
-var catFile = 'data/categories.json'
-var settingsFile = 'data/settings.json'
+var catFile = `${__dirname}/data/categories.json`
+var settingsFile = `${__dirname}/data/settings.json`
 
 var categoriesList = {};
 

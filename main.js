@@ -13,14 +13,15 @@ app.on('ready', () => {
 	win = new BrowserWindow({
 		width : 800,
 		height: 600,
-		frame : false
+		frame : false,
+        icon : `${__dirname}/assets/icon.png`
 	})
 
 	win.loadURL(`file://${__dirname}/main.html`)
-	win.webContents.openDevTools()
+	// win.webContents.openDevTools()
 	win.on('close', function () { win = null })
 
-    tray = new Tray('assets/icon.png')
+    tray = new Tray(`${__dirname}/assets/icon.png`)
     contextMenu = Menu.buildFromTemplate([
         {label: 'Show/Hide App', click() { toggleApplication(); }},
         {label: 'Exit', click() { quitApp(); }}
