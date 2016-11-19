@@ -396,7 +396,7 @@ function populateData(doc) {
 Process the cron jobs
 */
 function processCronJobs(){
-  db.getActiveReminders((remArr)=>{
+  db.getAllAlerts((remArr)=>{
     for(item in remArr) {
       var jobId = cron.addJob(remArr[item], openAlert);
       cJobs[remArr[item]._id] = jobId;
@@ -591,13 +591,13 @@ function updateDBCategory(oldVal, newVal){
   db.updateCategory(oldVal, newVal);
 }
 
-// let myNotification = new Notification('Title', {
-//   body: 'Lorem Ipsum Dolor Sit Amet'
-// })
+let myNotification = new Notification('Title', {
+  body: 'Lorem Ipsum Dolor Sit Amet'
+})
 
-// myNotification.onclick = () => {
-//   console.log('Notification clicked')
-// }
+myNotification.onclick = () => {
+  console.log('Notification clicked')
+}
 
 function enableAddCategory(){
   $(document).on("click","#addCatBtn", function(){
@@ -651,7 +651,6 @@ function updateUpComingResources(){
   // today
   // check if present for today
   var today = utils.getCurrentDate();
-  console.log(today);
   db.getActiveForCurDate(new RegExp(today),new Date(), (docs)=>{
     if(Object.size(docs) > 0) {
       populateUpComReminders("#todayRemList",docs )

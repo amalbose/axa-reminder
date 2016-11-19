@@ -71,6 +71,12 @@ exports.getActiveForCurDate = function(dateStr,date, callback){
 	});
 };
 
+exports.getAllAlerts = function(callback) {
+	db.find({ alarm : true }).sort({ remindOn: 1 }).exec(function (err, docs) {
+	  callback(docs);
+	});
+}
+
 exports.getActiveForDate = function(date, callback){
 	db.find({ $and : [{remindOn: { $regex: date }}, {status: false }] }, function (err, docs) {
 	  if(err)

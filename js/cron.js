@@ -4,7 +4,7 @@ var CronJob = require('cron').CronJob;
 * Add job and return the job handler.
 */
 exports.addJob = function(doc, func){
-	var job = new CronJob(new Date(doc.remindOn), function() {
+	var job = new CronJob(new Date(doc.remindOnT), function() {
 		func(doc);
 	}, function () {
 	},
