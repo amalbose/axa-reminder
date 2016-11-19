@@ -13,11 +13,18 @@
             <input type="checkbox" id="startCB" checked> 
         </div>
       </div>
+      <div class="col-sm-12 paddingTop8">
+        <label class="control-label required paddingTop8">Bring App to focus on Alert</label>
+        <div class="input-group inlineRight noDrag">
+            <input type="checkbox" id="onFocusCB" checked> 
+        </div>
+      </div>
     </form>
 </div>
 <script>
     $("#quitCB").bootstrapSwitch();
     $("#startCB").bootstrapSwitch();
+    $("#onFocusCB").bootstrapSwitch();
 
     $('#quitCB').on('switchChange.bootstrapSwitch', function(event, state) {
         updateSettings("QUIT_APP_ON_CLOSE",state);
@@ -27,7 +34,12 @@
         updateSettings("LAUNCH_ON_STARTUP",state);
     });
 
+    $('#onFocusCB').on('switchChange.bootstrapSwitch', function(event, state) {
+        updateSettings("BRING_TO_FOCUS_ONALERT",state);
+    });
+
     $("#quitCB").bootstrapSwitch('state', getSettingValue("QUIT_APP_ON_CLOSE"));
     $("#startCB").bootstrapSwitch('state', getSettingValue("LAUNCH_ON_STARTUP"));
+    $("#onFocusCB").bootstrapSwitch('state', getSettingValue("BRING_TO_FOCUS_ONALERT"));
 
 </script>

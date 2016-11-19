@@ -9,6 +9,8 @@ let tray = null;
 let win = null;
 let contextMenu = null;
 
+var settings = {};
+
 app.on('ready', () => {
 	win = new BrowserWindow({
 		width : 800,
@@ -38,8 +40,28 @@ app.on('ready', () => {
 })
 
 ipcMain.on('toggleApplication', (event, arg) => {
-  toggleApplication();
+    if(arg == "toggle")
+        toggleApplication();
+    else {
+        if(settings['BRING_TO_FOCUS_ONALERT']){
+            showApp();
+        }
+    }
 });
+
+ipcMain.on('setSettings', (event, settings) => {
+    updateSettings(settings);
+});
+
+function updateSettings(settingVals){
+    settings = settingVals;
+    setAutolaunch(settings['LAUNCH_ON_STARTUP']);
+}
+
+
+function showApp(){
+    win.show();
+}
 
 function toggleApplication() {
   win.isVisible() ? win.hide() : win.show()
@@ -54,21 +76,22 @@ Menu.setApplicationMenu(menu)
 
 
 // Auto launch
- 
-var axareminderLauncher = new AutoLaunch({
-    name: 'AxaReminder',
-    isHidden: true,
-});
- 
-axareminderLauncher.enable(); 
- 
-axareminderLauncher.isEnabled()
-.then(function(isEnabled){
-    if(isEnabled){
-        return;
-    }
-    axareminderLauncher.enable();
-})
-.catch(function(err){
-    // handle error 
-});
+function setAutolaunch(value){
+    var axareminderLauncher = new AutoLaunch({
+        name: 'AxaReminder',
+        isHidden: true,
+    });
+     
+    axareminderLauncher.enable(); 
+     
+    axareminderLauncher.isEnabled()
+    .then(function(isEnabled){
+        if(isEnabled){
+            return;
+        }
+        axareminderLauncher.enable();
+    })
+    .catch(function(err){
+        // handle error 
+    });
+}

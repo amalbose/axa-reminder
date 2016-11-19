@@ -1,4 +1,5 @@
 {
     "QUIT_APP_ON_CLOSE": false,
-    "LAUNCH_ON_STARTUP": true
+    "LAUNCH_ON_STARTUP": true,
+    "BRING_TO_FOCUS_ONALERT": true
 }

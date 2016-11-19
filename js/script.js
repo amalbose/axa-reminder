@@ -1,6 +1,6 @@
 var fs = require('fs');
 const {ipcRenderer} = require('electron')
-
+    
 var db = require("./js/db.js");
 var cron = require("./js/cron.js");
 var utils = require("./js/utils.js");
@@ -50,7 +50,7 @@ $(document).on("click","#closeIcon", function(){
   if(settings["QUIT_APP_ON_CLOSE"]) {
     window.close();
   } else {
-    ipcRenderer.send('toggleApplication', 'ping');
+    ipcRenderer.send('toggleApplication', 'toggle');
   }
 });
 
@@ -421,6 +421,8 @@ function stopJob(idVal){
 
 function openAlert(doc) {
   $('#alertNotify').modal({});
+  showNotification("Reminder - " + doc.name , doc.category + "<br/>" + doc.notes + "<br/>" + doc.remindOn);
+  ipcRenderer.send('toggleApplication', 'show');
   $('#alertNotify').on('shown.bs.modal', function (event) {
     $("#alertNotify #alertBody").text(doc.name);
     $("#alertNotify #openID").val(doc._id);
@@ -591,13 +593,13 @@ function updateDBCategory(oldVal, newVal){
   db.updateCategory(oldVal, newVal);
 }
 
-let myNotification = new Notification('Title', {
-  body: 'Lorem Ipsum Dolor Sit Amet'
-})
 
-myNotification.onclick = () => {
-  console.log('Notification clicked')
+function showNotification(title, bodyVal) {
+  let myNotification = new Notification(title, {
+    body: bodyVal
+  });
 }
+
 
 function enableAddCategory(){
   $(document).on("click","#addCatBtn", function(){
@@ -741,12 +743,15 @@ function populateUpComReminders(elementId, remArr) {
   }
   loadCategoryColor();
 }
-
+   
 function loadSettings() {
   readJson(settingsFile,(sStr)=> {
     settings = {};
     settings["QUIT_APP_ON_CLOSE"] = sStr.QUIT_APP_ON_CLOSE;
     settings["LAUNCH_ON_STARTUP"] = sStr.LAUNCH_ON_STARTUP;
+    settings["BRING_TO_FOCUS_ONALERT"] = sStr.BRING_TO_FOCUS_ONALERT;
+
+    ipcRenderer.send('setSettings', settings);
     return settings;
   }); 
 }
@@ -758,6 +763,7 @@ function updateSettings(key, value) {
       if(err) {
           return console.log(err);
       }
+      ipcRenderer.send('setSettings', settings);
   });
 }
 
