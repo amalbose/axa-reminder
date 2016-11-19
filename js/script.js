@@ -246,15 +246,17 @@ function saveData(callBack){
   var name = $("#newReminderModal #task_name").val()
   var notes = $("#newReminderModal #notes").val()
   var remindOn = $("#newReminderModal #datetimepicker").val()
+  var remindOnT = utils.getDate(remindOn);
   var alarm = $("#newReminderModal #alertOn1").prop('checked');
   var category = $("#newReminderModal #categorySelect1").val();
   // Create the item using the values
-  var item = { 
+  var item = {
     name: name, 
     alarm: alarm,
     category: category, 
     notes: notes, 
     remindOn: remindOn,
+    remindOnT: remindOnT,
     status: false 
   };
 
@@ -649,7 +651,7 @@ function updateUpComingResources(){
   // today
   // check if present for today
   var today = utils.getCurrentDate();
-
+  console.log(today);
   db.getActiveForCurDate(new RegExp(today),new Date(), (docs)=>{
     if(Object.size(docs) > 0) {
       populateUpComReminders("#todayRemList",docs )
