@@ -707,9 +707,11 @@ function getNextWeeksRegexp(){
 }
 
 function populateUpComReminders(elementId, remArr) {
-  var typ = "_a";
-  if(elementId.indexOf("all") !== -1) {
-    typ ="_c";
+  var typ = "_t";
+  if(elementId.indexOf("week") !== -1) {
+    typ ="_w";
+  } else if(elementId.indexOf("over") !== -1) {
+    typ ="_o";
   }
   for(item in remArr) {
     if(item=="removeValue")
