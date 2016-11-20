@@ -686,7 +686,7 @@ function updateUpComingResources(){
 }
 
 function updateOverdueCount(count){
-  $("#overDueHeader").text("Overdue (" + count + ")");
+  $("#overDueHeader").text("OVERDUE (" + count + ")");
 }
 
 function getNextWeeksRegexp(){
