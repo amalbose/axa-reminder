@@ -265,3 +265,25 @@ ul.nav.nav-tabs li>a {
   padding-top: 15px;
   padding-bottom: 15px;
 }
+
+.sidebarSpan{
+    font-size: 18px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.heightDiv{
+    height: 142px;
+    padding-top: 0px !important;
+}
+
+.settingsEntry{
+    padding: 6px;
+    margin: 5x;
+    border-top-width: 0px;
+    border-top-color: rgb(221, 221, 221);
+    border-bottom-color: rgb(221, 221, 221);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: rgb(255, 255, 255);
+}
