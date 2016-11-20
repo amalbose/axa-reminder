@@ -674,13 +674,19 @@ function updateUpComingResources(){
   });
 
   db.getPreviousReminders(new Date(), (docs)=>{
-    if(Object.size(docs) > 0) {
-      populateUpComReminders("#overRemList",docs )
+    var overDueSize = Object.size(docs);
+    if(overDueSize > 0) {
+      updateOverdueCount(overDueSize);
+      populateUpComReminders("#overRemList",docs );
     } else {
       $("#overRemList").prepend("<li class='list-group-item upHeader'>No Overdue Reminders</li>");
     }
   });
 
+}
+
+function updateOverdueCount(count){
+  $("#overDueHeader").text("Overdue (" + count + ")");
 }
 
 function getNextWeeksRegexp(){

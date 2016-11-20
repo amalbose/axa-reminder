@@ -2,6 +2,15 @@ body {
     -ms-overflow-style: hidden;
     -webkit-app-region:drag;
     background-color: #8BC34A;
+    font-family: 'Lato-Regular', sans-serif;
+}
+
+@font-face {
+  font-family: 'Lato-Regular';
+  src: url('fonts/Lato-Regular.ttf'); 
+  src: 
+    local('Lato-Regular'),
+    url('fonts/Lato-Regular.ttf') 
 }
 
 input[type="submit"],
@@ -249,4 +258,11 @@ ul.nav.nav-tabs li>a {
 
 .paddingTop8 {
   padding-top: 8px;
+}
+
+.headerLine{
+  text-align: center;
+  font-size: x-large;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
