@@ -287,3 +287,13 @@ ul.nav.nav-tabs li>a {
     border-bottom-width: 1px;
     border-left-color: rgb(255, 255, 255);
 }
+
+#headerIcon{
+  padding-left: 15px;
+  padding-top: 15px;
+}
+
+#headerTitle{
+  left: 32px;
+  position: absolute;
+}
