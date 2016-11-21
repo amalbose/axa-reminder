@@ -51,7 +51,9 @@ h1, h2, h3, h4, h5, h6, span, p, i {
     -webkit-user-select: none;
     user-select: none;
 }
-
+* {
+  border-radius: 0 !important;
+}
 #title{
 	color : #fff;
 }
@@ -93,7 +95,7 @@ input, button, textarea,.sidebar_brand, :focus {
   padding: 12px 0;
   font-size: 12px;
   line-height: 1.42;
-  border-radius: 25px;
+  border-radius: 25px !important;
 }
 
 /* Scroll */
@@ -200,10 +202,6 @@ h5:hover + .editBtn {
 .list-group-item:first-child {
   border-top-color: white !important;
   border-top-left-radius: 0px !important;
-}
-
-div#allCategories .list-group-item:first-child {
-    border-top-left-radius: 4px !important;
 }
 
 ul.nav.nav-tabs li>a {
