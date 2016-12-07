@@ -1,7 +1,7 @@
 // Database scripts
 var Nedb = require("nedb");
 
-var db = new Nedb({ filename: 'axa-reminder-data/datafile.db', autoload: true });
+var db = new Nedb({ filename: `${__dirname}/../data/datafile.db`, autoload: true });
 
 // db.remove({}, { multi: true }, function (err, numRemoved) {});
 
