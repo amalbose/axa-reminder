@@ -37,3 +37,5 @@ jspm_packages
 .node_repl_history
 axa-reminder-data/
 packages
+.vscode/
+data/datafile.db
